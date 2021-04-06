@@ -1,0 +1,46 @@
+// Colours
+$colour-primary: #ED6454;
+$colour-secondary: #3282F7;
+$colour-tertiary: #68D9A4;
+
+$primary-active : #DB8876;
+$tag-active : #901C1C;
+
+$background-base : #FFF;
+$background-grey-light : #E7E7E7;
+$background-grey-dark : #C7BEBE;
+
+// Basic layout
+$layout-mgn-vert : 2rem;
+$layout-mgn-hrt : 1rem;
+
+// Font colours
+$font-colour-light : #FFF;
+$font-colour-medium: rgba(0,0,0,0.1);
+$font-colour-dark : #000;
+
+// Fonts basics
+$font-size-base: 1rem;
+$font-base: 'Lato', sans-serif;
+$font-default : sans-serif;
+
+// Fonts Variables
+$font-logo: 'DM Sans', sans-serif;
+$font-descr: 'Roboto', sans-serif;
+
+
+// Texts
+$line-height : 1.6rem;
+
+// Box shadows
+
+
+// Breakpoint for responsive
+$breakpoints:(
+        xs: "320",
+        sm: "576px",
+        md: "992px",
+        lg: "1024px",
+        xl: "1200px",
+        xxl: "1400px"
+);
