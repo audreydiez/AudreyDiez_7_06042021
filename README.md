@@ -12,15 +12,15 @@
 <div align="center">
   <!-- Last Commit -->
   <a href="#">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/audreydiez/AudreyDiez_6_16022021?style=for-the-badge">     
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/audreydiez/AudreyDiez_7_06042021?style=for-the-badge">     
   </a>
   <!-- W3C  -->
   <a href="#">
-    <img alt="W3C Validation" src="https://img.shields.io/w3c-validation/html?style=for-the-badge&targetUrl=https%3A%2F%2Faudreydiez.github.io%2FAudreyDiez_6_16022021">  
+    <img alt="W3C Validation" src="https://img.shields.io/w3c-validation/html?style=for-the-badge&targetUrl=https%3A%2F%2Faudreydiez.github.io%2FAudreyDiez_7_06042021">  
     </a> 
 <!-- website  -->
   <a href="#">
-   <img alt="Website" src="https://img.shields.io/website?down_message=Offline&style=for-the-badge&up_message=Online&url=https%3A%2F%2Faudreydiez.github.io%2FAudreyDiez_6_16022021%2F%23">
+   <img alt="Website" src="https://img.shields.io/website?down_message=Offline&style=for-the-badge&up_message=Online&url=https%3A%2F%2Faudreydiez.github.io%2FAudreyDiez_7_06042021%2F%23">
   </a> 
 </div>
 
