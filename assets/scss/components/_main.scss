@@ -1,3 +1,103 @@
-.main{
-    background-color: #C7BEBE;
+.recipes{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+
+    @include breakpoint(xxl){
+        justify-content: space-between;
+    }
+
+    .recipe-container{
+        flex-basis: 100%;
+        max-width: 380px;
+        padding: 0 0 2rem 0;
+        @include breakpoint(md){
+            margin: 0 1rem 3rem 1rem;
+        }
+        @include breakpoint(xxl){
+            margin: 0;
+            justify-content: space-between;
+        }
+        .recipe{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 100%;
+            color: $font-colour-dark;
+            font-size: 0.8rem;
+            background-color: $background-grey-light;
+            border-radius: 0 0 5px 5px;
+            &__picture{
+                width: 100%;
+                height: auto;
+                object-fit: cover;
+                object-position: center;
+                border-radius: 5px 5px 0 0;
+            }
+            &__description{
+                width: 100%;
+                min-height: 186px;
+                .header{
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    width: calc(100% - 2rem);
+                    margin: 1rem 1rem 0.4rem 1rem;
+                    &__title{
+                        float: left;
+                        margin-right: 1rem;
+                        font-size: 1rem;
+                        padding-bottom: 0.5rem;
+                        @include breakpoint(m){
+                            font-size: 1.1rem;
+                        }                    }
+                    &__time{
+                        font-weight: 700;
+                    }
+                }
+                .description{
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    width: calc(100% - 2rem);
+                    margin: 0 1rem 1rem 1rem;
+                    line-height: 1.2rem;
+                    &__ingredients{
+                        flex-basis: 100%;
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        align-content: flex-start;
+                        .ingredient{
+                            flex-basis: 100%;
+                            margin-bottom: 0.2rem;
+                            span{
+                                font-family: $font-descr;
+                                font-weight: 700;
+                            }
+                        }
+                        @include breakpoint(xs){
+                            flex-basis: 50%;
+                        }
+                    }
+                    &__excerpt{
+                        flex-basis: 100%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 8; /* number of lines to show */
+                        -webkit-box-orient: vertical;
+                        @include breakpoint(xs){
+                            flex-basis: 50%;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
 }
+
