@@ -1,8 +1,9 @@
 @import "base/reset";
 @import "utils/variables";
-
+@import "utils/typography";
+@import "utils/mixins";
 @import "base/base";
 
 @import "components/header";
+@import "components/main";
 
-@import "utils/typography";

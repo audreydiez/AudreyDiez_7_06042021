@@ -48,4 +48,7 @@ table {
 ul, li{
   display: inline-block;
 }
+input:focus, textarea:focus, select:focus{
+  outline: none;
+}
 

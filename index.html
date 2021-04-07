@@ -12,7 +12,7 @@
     <div id="app" class="container">
 
         <header class="header text-center">
-            <figure class="header__figure figure pb-4">
+            <figure class="header__figure figure mb-4">
                 <img src="assets/images/logo.png" class="figure-img img-fluid" alt="Les Petits Plats - Page d'accueil">
             </figure>
             <form class="header__searchbar">
@@ -27,14 +27,59 @@
                 </button>
             </form>
 
-            <div class="header__filters text-start pt-3">
+            <div class="header__filtered text-start mt-3">
                 <div class="filter filter--blue">
+                    <span>Coco</span>
+                    <em class="far fa-times-circle"></em>
+                </div>
+                <div class="filter filter--red">
+                    <span>Coco</span>
+                    <em class="far fa-times-circle"></em>
+                </div>
+                <div class="filter filter--green">
                     <span>Coco</span>
                     <em class="far fa-times-circle"></em>
                 </div>
             </div>
 
+            <div class="header__filters text-start mt-3">
+                <div class="select select--blue">
+                    <label for="custom-input ingredients-input" class="sr-only">Ingredients</label>
+                    <input
+                            type="text"
+                            id="custom-input ingredients-input"
+                            class="custom-input"
+                            placeholder="Ingredients"
+                    />
+                    <i class="fas fa-chevron-up"></i>
+                </div>
+                <div class="select select--green">
+                    <label for="custom-input appareil-input" class="sr-only">Appareil</label>
+                    <input
+                            type="text"
+                            id="custom-input appareil-input"
+                            class="custom-input"
+                            placeholder="Appareil"
+                    />
+                    <i class="fas fa-chevron-up"></i>
+                </div>
+                <div class="select select--red">
+                    <label for="custom-input ustensiles-input" class="sr-only">Ustensiles</label>
+                    <input
+                            type="text"
+                            id="custom-input ustensiles-input"
+                            class="custom-input"
+                            placeholder="Ustensiles"
+                    />
+                    <i class="fas fa-chevron-up"></i>
+                </div>
+
+            </div>
         </header>
+
+        <main class="main mt-3">
+
+        </main>
 
 
 
