@@ -5,6 +5,7 @@
     width: 100%;
     justify-content: center;
 
+
     @include breakpoint(xxl){
         justify-content: space-between;
     }
@@ -13,6 +14,9 @@
         flex-basis: 100%;
         max-width: 380px;
         padding: 0 0 2rem 0;
+        transition: all;
+        animation: fadeIn 0.5s ease-out;
+
         @include breakpoint(md){
             margin: 0 1rem 3rem 1rem;
         }
@@ -101,3 +105,11 @@
     }
 }
 
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
