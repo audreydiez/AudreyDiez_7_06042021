@@ -24,12 +24,22 @@ function createRecipe(recipe){
 
     let ingredients =``;
     recipe.ingredients.forEach(ingredient => {
-        ingredients += `<p class="ingredient"><span>${ingredient.ingredient}:</span> ${ingredient.quantity}</p>`;
+        if (ingredient.quantity){
+            if (ingredient.quantity && ingredient.unit){
+                ingredients += `<p class="ingredient"><span>${ingredient.ingredient}:</span> ${ingredient.quantity} ${ingredient.unit}</p>`;
+            }
+            else{
+                ingredients += `<p class="ingredient"><span>${ingredient.ingredient}:</span> ${ingredient.quantity}</p>`;
+            }
+        }
+        else {
+            ingredients += `<p class="ingredient"><span>${ingredient.ingredient}</p>`;
+        }
     });
 
     return `<article class="recipe-container">
                 <figure class="recipe">
-                    <img src="http://placekitten.com/600/400" alt="Une recette" class="recipe__picture">
+                    <img src="http://placekitten.com/600/400" alt="${recipe.name}" class="recipe__picture">
                     <figcaption class="recipe__description">
                         <div class="header">
                             <span class="header__title pb-2">${recipe.name}</span>
@@ -40,8 +50,11 @@ function createRecipe(recipe){
                                 ${ingredients}
                             </div>
                             <div class="description__excerpt">
+                                <p>${recipe.appliance}</p>
+                                <p>${recipe.ustensils}</p>
+                                <p>${recipe.servings}</p> 
                                 <p>${recipe.description}</p>
-                            </div>
+                            </div>                                          
                         </div>
                     </figcaption>
                 </figure>
