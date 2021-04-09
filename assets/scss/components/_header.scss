@@ -47,10 +47,17 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
+        align-items: flex-start;
+        align-content: flex-start;
            .select{
-               display: inline-block;
+
+               position: relative;
+
+               transition: all 0.3s ease-in-out;
                flex-basis: 100%;
-               padding: 1rem 1.3rem;
+
+               //height: 50px;
+               padding: 0.9rem 1.3rem;
                border-radius: 5px;
                color: $font-colour-light;
                font-weight: 700;
@@ -70,7 +77,7 @@
                .custom-input{
                    background-color: transparent;
                    border: 1px solid transparent;
-                   width: 220px;
+                   //width: 100%;
                    color: $font-colour-light;
                    font-weight: 700;
                    @include breakpoint(m){
@@ -81,9 +88,10 @@
                    color: $font-colour-light;
                    font-weight: 700;
                }
-               @include breakpoint(m){
-                   max-width: 200px;
-                   margin: 0;
+               @include breakpoint(md){
+                   width: auto;
+                   max-width: 170px;
+
                    &:nth-child(-n+2){
                        margin-right: 1.5rem;
                    }

@@ -1,4 +1,4 @@
-import data from "./data";
+import data from "../data/data";
 
 const recipes = data.recipes;
 const parentElt = document.getElementById("recipes");
