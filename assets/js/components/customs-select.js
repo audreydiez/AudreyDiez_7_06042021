@@ -84,10 +84,10 @@ function moveSelectRight(selectTypeExpanded) {
 
         if (getWidth() <= 992){
             if (selectTypeExpanded === "ingredients-filters"){
-                document.getElementById(selectTypeExpanded).parentElement.style.zIndex = "2"
+                document.getElementById(selectTypeExpanded).parentElement.style.zIndex = 2;
             }
             if (selectTypeExpanded === "appliances-filters"){
-                document.getElementById(selectTypeExpanded).parentElement.style.zIndex = "2"
+                document.getElementById(selectTypeExpanded).parentElement.style.zIndex = 2;
             }
 
         }

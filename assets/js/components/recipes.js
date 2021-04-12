@@ -3,6 +3,7 @@ import data from "../data/data";
 const recipes = data.recipes;
 const parentElt = document.getElementById("recipes");
 
+
 /**
  * display all recipes
  * @param   {object}  recipes
@@ -22,6 +23,8 @@ export function displayRecipes() {
  */
 function createRecipe(recipe){
 
+    let lolcat = Math.floor(Math.random() * 400) + 399;
+
     let ingredients =``;
     recipe.ingredients.forEach(ingredient => {
         if (ingredient.quantity){
@@ -39,7 +42,7 @@ function createRecipe(recipe){
 
     return `<article class="recipe-container">
                 <figure class="recipe">
-                    <img src="http://placekitten.com/600/400" alt="${recipe.name}" class="recipe__picture">
+                    <img src="http://placekitten.com/${lolcat}/400" alt="${recipe.name}" class="recipe__picture">
                     <figcaption class="recipe__description">
                         <div class="header">
                             <span class="header__title pb-2">${recipe.name}</span>
@@ -49,10 +52,7 @@ function createRecipe(recipe){
                             <div class="description__ingredients pb-3">
                                 ${ingredients}
                             </div>
-                            <div class="description__excerpt">
-                                <p>${recipe.appliance}</p>
-                                <p>${recipe.ustensils}</p>
-                                <p>${recipe.servings}</p> 
+                            <div class="description__excerpt">                               
                                 <p>${recipe.description}</p>
                             </div>                                          
                         </div>

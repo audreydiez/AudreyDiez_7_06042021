@@ -41,14 +41,16 @@
             &__picture{
                 width: 100%;
                 height: auto;
+                max-height: 178px;
                 object-fit: cover;
-                object-position: center;
+                object-position: 100%;
                 border-radius: 5px 5px 0 0;
             }
             &__description{
                 width: 100%;
-                min-height: 186px;
+                min-height: 235px;
                 .header{
+                    //z-index: 0;
                     display: flex;
                     flex-direction: row;
                     flex-wrap: wrap;
