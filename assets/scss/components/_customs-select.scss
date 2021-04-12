@@ -1,6 +1,8 @@
 .filters-collapsed{
     margin-top: 1rem;
+    animation: Select 0.3s ease-in-out;
 
+    transition: all 0.3s ease-in-out;
     font-weight: 500;
     display: flex;
     flex-direction: row;
