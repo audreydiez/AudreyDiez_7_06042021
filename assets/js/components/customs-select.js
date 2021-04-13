@@ -18,9 +18,8 @@ export function setComportment (){
             toggleSelect(select);
         })
     })
-
-
 }
+
 /* toggle filter under select
 * @param   {}
 * @return  {}
@@ -29,9 +28,11 @@ function toggleSelect(select){
     let selectType = select.getAttribute("value") + "-filters";
     let filtersContainer = document.getElementById(selectType);
 
+    let selectInput = "custom-input " + select.getAttribute("value") + "-input";
+    let iconInput = "fa-chevron-" + select.getAttribute("value");
 
     // RESET all
-    resetCSSSelect(selectType);
+    resetCSSSelect(selectType, select);
     moveSelectLeft(selectType);
 
     // expand / collapse filters
@@ -39,8 +40,11 @@ function toggleSelect(select){
 
         moveSelectRight(selectType);
 
+        document.getElementById(iconInput).style.transform = "rotate(180deg)";
+
         filtersContainer.style.display = "flex"
         filtersContainer.setAttribute("state", "expanded");
+        document.getElementById(selectInput).style.width = "200px";
 
 
         if (getWidth() < 992){
@@ -56,22 +60,30 @@ function toggleSelect(select){
     }
     else{
         // back to normal state
+
         filtersContainer.style.display = "none"
         filtersContainer.setAttribute("state", "collapsed");
         select.style.minWidth ="";
+        document.getElementById(selectInput).style.width = "";
 
     }
 }
 
-function resetCSSSelect (selectTypeExpanded){
+function resetCSSSelect (selectTypeExpanded, select){
+
+    let iconInput = "fa-chevron-" + select.getAttribute("value");
+    document.getElementById(iconInput).style.transform = "rotate(0deg)";
+
     Array.from(customsSelect).forEach(select => {
 
         let selectType = select.getAttribute("value") + "-filters";
+
 
         if (selectType != selectTypeExpanded){
             document.getElementById(selectType).style.display = "none";
             document.getElementById(selectType).setAttribute("state", "collapsed");
             select.style.minWidth ="";
+
         }
     })
 }
@@ -79,6 +91,11 @@ function resetCSSSelect (selectTypeExpanded){
 function moveSelectRight(selectTypeExpanded) {
 
     Array.from(customsSelect).forEach(select => {
+
+        let selectInput = "custom-input " + select.getAttribute("value") + "-input";
+
+        document.getElementById(selectInput).style.width = "110px";
+
 
         let selectValue = select.getAttribute("value")+"-filters";
 
@@ -120,6 +137,9 @@ function moveSelectLeft(selectTypeExpanded) {
 
 
     Array.from(customsSelect).forEach(select => {
+
+        let iconInput = "fa-chevron-" + select.getAttribute("value");
+        document.getElementById(iconInput).style.transform = "rotate(0deg)";
 
         let selectValue = select.getAttribute("value")+"-filters";
 

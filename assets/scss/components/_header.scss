@@ -55,7 +55,7 @@
            .select{
                position: absolute;
                //animation-delay: 1s;
-               transition: all 0.1s ease-in-out;
+               transition: all 0.3s ease-in-out;
                width: 100%;
 
                //height: 50px;
@@ -75,6 +75,7 @@
                }
                .fas{
                    float: right;
+                   transition: all 0.2s ease-in-out;
                }
                .custom-input{
                    background-color: transparent;
