@@ -1,10 +1,13 @@
 import data from "../data/data";
 
+const Filtered = [];
+
 export function setFilters(){
 
     fillSelect("ingredients-filters", getIngredients());
     fillSelect("appliances-filters", getAppliances());
     fillSelect("ustensils-filters", getUstensils());
+    addClickEvent();
 }
 
 
@@ -12,7 +15,7 @@ export function setFilters(){
  * Get all ingredients for filters
  * @return  {Array}    Ingredients (unique)
  */
-export function getIngredients(){
+function getIngredients(){
     let ingredients = [];
 
     data.recipes.forEach(recipe => {
@@ -27,7 +30,7 @@ export function getIngredients(){
  * Get all appliances for filters
  * @return  {Array}    appliances (unique)
  */
-export function getAppliances(){
+function getAppliances(){
     let appliances = [];
 
     data.recipes.forEach( recipe => {
@@ -41,7 +44,7 @@ export function getAppliances(){
  * Get all ustensils for filters
  * @return  {Array}    ustensils (unique)
  */
-export function getUstensils(){
+function getUstensils(){
     let ustensils = [];
 
     data.recipes.forEach( recipe => {
@@ -56,20 +59,44 @@ export function getUstensils(){
 function fillSelect(selectType, array){
     let parentElt =  document.getElementById(selectType);
     let childrenElt = ``;
-    let numberOfElement = 0;
-
-    if (array.length > 1){
-        console.log("0")
-    }
 
     array.forEach(elt => {
-        elt = elt.charAt(0).toUpperCase() + elt.slice(1);
-        if (numberOfElement <= 300 ){
-            childrenElt += `<a href="#" class="filter">${elt}</a>`;
-            numberOfElement++;
-        }
-    });
 
+        let id = addFilterID(elt);
+
+        elt = elt.charAt(0).toUpperCase() + elt.slice(1);
+
+        childrenElt += `<a href="#" class="filter" id="${id}" type="${selectType}">${elt}</a>`;
+
+    });
+    parentElt.insertAdjacentHTML('beforeend', childrenElt);
+
+}
+
+function addClickEvent(){
+    let filters = document.querySelectorAll('a[class="filter"]');
+
+    Array.from(filters).forEach( elt => {
+        //console.log(elt)
+        elt.addEventListener( 'click',e => {
+            e.preventDefault()
+            createTag(elt.innerHTML, elt.getAttribute("type"));
+        })
+    })
+}
+
+function addFilterID (elt){
+    let test =elt.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    return test.replace(/[^A-Z0-9]/ig, "");
+}
+
+function createTag(elt, eltType){
+    let parentElt =  document.getElementById("tag-container");
+
+    let childrenElt = `<div class="filter ${eltType}">
+                            <span>${elt} </span>
+                            <em class="far fa-times-circle"></em>
+                       </div>`;
     parentElt.insertAdjacentHTML('beforeend', childrenElt);
 
 }

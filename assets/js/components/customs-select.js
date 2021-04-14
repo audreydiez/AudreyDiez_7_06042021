@@ -40,11 +40,12 @@ function toggleSelect(select){
 
         moveSelectRight(selectType);
 
-        document.getElementById(iconInput).style.transform = "rotate(180deg)";
+
 
         filtersContainer.style.display = "flex"
         filtersContainer.setAttribute("state", "expanded");
         document.getElementById(selectInput).style.width = "200px";
+        document.getElementById(iconInput).style.transform = "rotate(180deg)";
 
 
         if (getWidth() < 992){

@@ -31,20 +31,22 @@
         font-size: 0.9rem;
         .filter{
             display: inline-block;
+            margin-right: 0.5rem;
             padding: 0.6rem 1rem;
             border-radius: 5px;
-            &--blue{
+            &.ingredients-filters{
                 background-color: $colour-secondary;
             }
-            &--green{
+            &.appliances-filters{
                 background-color: $colour-tertiary;
             }
-            &--red{
+            &.ustensils-filters{
                 background-color: $colour-primary;
             }
         }
     }
     &__filters{
+
         position: relative;
         width: 100%;
         display: flex;
@@ -57,7 +59,7 @@
                //animation-delay: 1s;
                transition: all 0.3s ease-in-out;
                width: 100%;
-
+               min-width: 0;
                //height: 50px;
                padding: 0.9rem 1.3rem;
                border-radius: 5px;
