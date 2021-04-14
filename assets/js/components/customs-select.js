@@ -11,7 +11,7 @@ const selectUstensilsInput = document.getElementById('ustensils-input');
  * @param   {}
  * @return  {}
  */
-export function setComportment (){
+export function setComportmentForSelects (){
     Array.from(customsSelect).forEach(select => {
         select.addEventListener('click', e => {
             e.preventDefault();

@@ -1,13 +1,17 @@
 import data from "../data/data";
 
-const Filtered = [];
+const filtered = [];
+
+export function getFilters(){
+    return filtered;
+}
 
 export function setFilters(){
 
     fillSelect("ingredients-filters", getIngredients());
     fillSelect("appliances-filters", getAppliances());
     fillSelect("ustensils-filters", getUstensils());
-    addClickEvent();
+    addClickEventOnFilters();
 }
 
 
@@ -73,7 +77,8 @@ function fillSelect(selectType, array){
 
 }
 
-function addClickEvent(){
+
+function addClickEventOnFilters(){
     let filters = document.querySelectorAll('a[class="filter"]');
 
     Array.from(filters).forEach( elt => {
@@ -98,5 +103,13 @@ function createTag(elt, eltType){
                             <em class="far fa-times-circle"></em>
                        </div>`;
     parentElt.insertAdjacentHTML('beforeend', childrenElt);
+    filtered.push({
+        key : eltType,
+        value: elt
+    });
+    console.log(filtered)
+}
+
+function removeTag(){
 
 }
