@@ -1,115 +1,137 @@
 import data from "../data/data";
+import {searching, resetSearching} from "./search-engine";
 
-const filtered = [];
+let filtered = [
+        {   type: "searchbar",
+            id : "searchbar",
+            value : null
+        }
+    ];
 
-export function getFilters(){
+export function getFiltered(){
     return filtered;
 }
 
-export function setFilters(){
+export function launchSearchEngine(ingredientsArray, appliancesArray, ustensilsArray){
 
-    fillSelect("ingredients-filters", getIngredients());
-    fillSelect("appliances-filters", getAppliances());
-    fillSelect("ustensils-filters", getUstensils());
-    addClickEventOnFilters();
+    fillSelect("ingredients-filters", "ingredients", ingredientsArray);
+    fillSelect("appliances-filters", "appliances", appliancesArray);
+    fillSelect("ustensils-filters","ustensils", ustensilsArray);
+    setMainInput();
 }
 
 
-/**
- * Get all ingredients for filters
- * @return  {Array}    Ingredients (unique)
- */
-function getIngredients(){
-    let ingredients = [];
-
-    data.recipes.forEach(recipe => {
-        recipe.ingredients.forEach(ingredient => {
-            ingredients.push(ingredient.ingredient.toLowerCase());
-        })
-    });
-    return new Set(ingredients);
-}
-
-/**
- * Get all appliances for filters
- * @return  {Array}    appliances (unique)
- */
-function getAppliances(){
-    let appliances = [];
-
-    data.recipes.forEach( recipe => {
-        recipe.appliance
-        appliances.push(recipe.appliance.toLowerCase())
-    });
-    return new Set(appliances);
-}
-
-/**
- * Get all ustensils for filters
- * @return  {Array}    ustensils (unique)
- */
-function getUstensils(){
-    let ustensils = [];
-
-    data.recipes.forEach( recipe => {
-        recipe.ustensils.forEach(ustensil => {
-            ustensils.push(ustensil.toLowerCase());
-        })
-    });
-    return new Set(ustensils);
-}
-
-
-function fillSelect(selectType, array){
+function fillSelect(selectType, type, array){
     let parentElt =  document.getElementById(selectType);
     let childrenElt = ``;
-
+    //console.log(array)
     array.forEach(elt => {
 
-        let id = addFilterID(elt);
+        let id = addFilterID(elt)+"-"+selectType;
+        let idTag = addFilterID(elt)+"-"+type;
+
 
         elt = elt.charAt(0).toUpperCase() + elt.slice(1);
 
-        childrenElt += `<a href="#" class="filter" id="${id}" type="${selectType}">${elt}</a>`;
+        let childElt = document.createElement("a");
+        childElt.setAttribute("href", "#");
+        childElt.classList.add("filter");
+
+        childElt.setAttribute("id", id);
+        childElt.setAttribute("type", selectType);
+        childElt.innerHTML =elt;
+
+        parentElt.appendChild(childElt);
+        childElt.addEventListener('click', e => {
+            e.preventDefault();
+            createTag(childElt.innerHTML, childElt.getAttribute("type"), idTag);
+            removeFilterNodeByID(id);
+        })
 
     });
-    parentElt.insertAdjacentHTML('beforeend', childrenElt);
 
 }
 
+function removeFilterNodeByID(id){
+    //console.log(id)
+    document.getElementById(id).remove()
 
-function addClickEventOnFilters(){
-    let filters = document.querySelectorAll('a[class="filter"]');
+}
 
-    Array.from(filters).forEach( elt => {
-        //console.log(elt)
-        elt.addEventListener( 'click',e => {
-            e.preventDefault()
-            createTag(elt.innerHTML, elt.getAttribute("type"));
-        })
+function setMainInput() {
+    const inputSearch = document.getElementById("searchbar");
+    inputSearch.addEventListener("input", e => {
+        if (inputSearch.value.length === 0) {
+            filtered[0] ={
+                type: "searchbar",
+                id : "searchbar",
+                value : null
+            };
+            resetSearching();
+        }
+        if (inputSearch.value.length > 2) {
+            filtered[0] ={
+                type: "searchbar",
+                id : "searchbar",
+                value : inputSearch.value
+            };
+            searching();
+        }
+
     })
 }
+
 
 function addFilterID (elt){
     let test =elt.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     return test.replace(/[^A-Z0-9]/ig, "");
 }
 
-function createTag(elt, eltType){
+function createTag(elt, eltType, eltID){
     let parentElt =  document.getElementById("tag-container");
+    let type = eltType.substr(0, eltType.lastIndexOf("-"));
 
-    let childrenElt = `<div class="filter ${eltType}">
-                            <span>${elt} </span>
-                            <em class="far fa-times-circle"></em>
-                       </div>`;
-    parentElt.insertAdjacentHTML('beforeend', childrenElt);
+    let childrenElt = document.createElement("a");
+    childrenElt.setAttribute("href", "#");
+    childrenElt.classList.add("tag");
+    childrenElt.classList.add(eltType);
+    childrenElt.setAttribute("id", eltID);
+    childrenElt.setAttribute("type", type);
+    childrenElt.innerHTML =`<span>${elt}</span> 
+                             <em class="far fa-times-circle"></em>
+                            `;
+
+    parentElt.appendChild(childrenElt);
+
     filtered.push({
-        key : eltType,
+        type : eltType,
+        id : eltID,
         value: elt
     });
+
+    childrenElt.addEventListener('click', e => {
+        e.preventDefault();
+        removeTagNodeByID(eltID, type, childrenElt.getElementsByTagName("span")[0].innerText);
+    })
+    console.log(filtered)
+
+}
+
+function removeTagNodeByID(eltID, type, text){
+    //console.log(eltID)
+    let elt = document.getElementById(eltID);
+
+    document.getElementById(eltID).remove();
+    filtered = filtered.filter(function( tag ) {
+        return tag.id !== eltID;
+    });
+
+    let array = [text];
+    array = new Set(array);
+    // Refill select custom
+    fillSelect(type+"-filters",type, array);
+
+
     console.log(filtered)
 }
 
-function removeTag(){
-
-}

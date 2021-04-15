@@ -1,20 +1,34 @@
-import data from "../data/data";
 
-const recipes = data.recipes;
-const parentElt = document.getElementById("recipes");
+let ingredientsArray = [];
+let appliancesArray = [];
+let ustensilsArray = [];
 
 
 /**
  * display all recipes
  * @param   {object}  recipes
  */
-export function displayRecipes() {
+export function displayRecipes(recipesArray) {
+    let parentElt = document.getElementById("recipes");
+    let filters;
 
-    recipes.forEach((recipe) => {
+    recipesArray.forEach((recipe) => {
         let recipeHTML = createRecipe(recipe);
         parentElt.insertAdjacentHTML('beforeend', recipeHTML);
+        getIngredients(recipe.ingredients);
+        getAppliances(recipe.appliance);
+        getUstensils(recipe.ustensils);
+
     });
+
+    ingredientsArray = new Set(ingredientsArray);
+    appliancesArray = new Set(appliancesArray);
+    ustensilsArray = new Set(ustensilsArray);
+
+    return filters = [ingredientsArray, appliancesArray, ustensilsArray];
 }
+
+
 
 /**
  * Create a recipe HTML
@@ -61,3 +75,24 @@ function createRecipe(recipe){
             </article>`;
 }
 
+
+function getIngredients(ingredients){
+    ingredients.forEach(ingredient => {
+        ingredientsArray.push(ingredient.ingredient);
+    })
+}
+
+function getAppliances(appliances){
+    //console.log(appliancesArray)
+        appliancesArray.push(appliances);
+}
+
+function getUstensils(ustensils){
+    ustensils.forEach(ustensil => {
+        ustensilsArray.push(ustensil);
+    })
+}
+
+export function getFilters(){
+
+}

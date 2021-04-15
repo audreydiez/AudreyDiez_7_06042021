@@ -29,9 +29,12 @@
         color: $font-colour-light;
         font-weight: 500;
         font-size: 0.9rem;
-        .filter{
+        transition: all 0.3s ease-in-out;
+
+        .tag{
+            animation: fadeIn 0.2s ease-in-out;
             display: inline-block;
-            margin-right: 0.5rem;
+            margin:  0 0.5rem 0.5rem 0;
             padding: 0.6rem 1rem;
             border-radius: 5px;
             &.ingredients-filters{
