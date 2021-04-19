@@ -1,4 +1,4 @@
-import {getFiltered, getRecipes, launchSearchEngine} from "./filters";
+import {getFiltered, getRecipes, reloadSearchEngine} from "./filters";
 import {displayRecipes, removeNodesRecipes, onlyUnique} from "./recipes";
 import {setComportmentForSelects} from "./customs-select";
 //import {init} from "/main";
@@ -16,37 +16,42 @@ export function searching(){
     const recipes = getRecipes();
     let recipesFiltered = [];
 
-    console.log(filtered);
+    //console.log(filtered);
+    //console.log(recipes);
+    //console.log(recipesFiltered);
 
-    filtered.forEach( filter => {
-        recipes.forEach(recipe => {
+    recipes.forEach( recipe => {
+        filtered.forEach(filter => {
 
 
-            if (
-                normalizeString(recipe.name).includes(filter.value)
-                || normalizeString(recipe.description).includes(filter.value)
-            ){
-                console.log(filter.value);
+            if (normalizeString(recipe.name).includes(filter.value)) {
                 recipesFiltered.push(recipe);
             }
-
+            if (normalizeString(recipe.description).includes(filter.value)) {
+                recipesFiltered.push(recipe);
+            }
             recipe.ingredients.forEach(ingredient => {
-                if (
-                    normalizeString(ingredient.ingredient).includes(filter.value)
-                ){
-                    //console.log(normalizeString(ingredient.ingredient), filter.value)
-                    console.log(filter.value);
+                if (normalizeString(ingredient.ingredient).includes(filter.value)) {
                     recipesFiltered.push(recipe);
-
                 }
             })
 
-        });
-        console.log(recipesFiltered);
-        recipesFiltered = recipesFiltered.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i);
-        console.log(recipesFiltered)
+        })
+    })
+    removeNodesRecipes();
+    recipesFiltered = recipesFiltered.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i);
+    //console.log(recipesFiltered);
+    //console.log(filtered);
+    let filters = displayRecipes(recipesFiltered);
 
-    });
+    // TODO CA MARCHE PAS
+    //reloadSearchEngine(filters[0], filters[1], filters[2], recipesFiltered);
+
+    //     console.log(recipesFiltered);
+    //     recipesFiltered = recipesFiltered.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i);
+    //     console.log(recipesFiltered)
+    //
+    // });
     //console.log(recipesFiltered)
 
     //console.log(recipesFiltered);
@@ -54,11 +59,11 @@ export function searching(){
     //init(recipesFiltered);
     // afficher les recettes
 // remove recettes
-    removeNodesRecipes();
-    let filters = displayRecipes(recipesFiltered);
+    //removeNodesRecipes();
+    //let filters = displayRecipes(recipesFiltered);
     //console.log(filters)
     //setComportmentForSelects();
-    launchSearchEngine(filters[0], filters[1], filters[2], recipesFiltered);
+    //launchSearchEngine(filters[0], filters[1], filters[2], recipesFiltered);
 
     //console.log(recipesFiltered)
 

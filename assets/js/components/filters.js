@@ -28,6 +28,17 @@ export function launchSearchEngine(ingredientsArray, appliancesArray, ustensilsA
     recipes = recipesArray;
 }
 
+export function reloadSearchEngine (ingredientsArray, appliancesArray, ustensilsArray, recipesArray){
+    console.log(ingredientsArray)
+    console.log(appliancesArray)
+    console.log(ustensilsArray)
+    console.log(recipesArray)
+    fillSelect("ingredients-filters", "ingredients", ingredientsArray);
+    fillSelect("appliances-filters", "appliances", appliancesArray);
+    fillSelect("ustensils-filters","ustensils", ustensilsArray);
+    recipes = recipesArray;
+}
+
 
 function fillSelect(selectType, type, array){
     let parentElt =  document.getElementById(selectType);
@@ -61,6 +72,7 @@ function fillSelect(selectType, type, array){
         })
 
     });
+
 
 }
 
