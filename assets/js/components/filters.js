@@ -1,6 +1,9 @@
 import data from "../data/data";
 import {searching, resetSearching} from "./search-engine";
+import {displayRecipes, removeNodesRecipes} from "./recipes";
+import {setComportmentForSelects} from "./customs-select";
 
+let recipes = [];
 let filtered = [
         {   type: "searchbar",
             id : "searchbar",
@@ -11,13 +14,18 @@ let filtered = [
 export function getFiltered(){
     return filtered;
 }
+export function getRecipes(){
+    return recipes;
+}
 
-export function launchSearchEngine(ingredientsArray, appliancesArray, ustensilsArray){
-
+export function launchSearchEngine(ingredientsArray, appliancesArray, ustensilsArray, recipesArray){
+    //console.log(ingredientsArray)
+    removeAllFilterNodes();
     fillSelect("ingredients-filters", "ingredients", ingredientsArray);
     fillSelect("appliances-filters", "appliances", appliancesArray);
     fillSelect("ustensils-filters","ustensils", ustensilsArray);
     setMainInput();
+    recipes = recipesArray;
 }
 
 
@@ -25,6 +33,10 @@ function fillSelect(selectType, type, array){
     let parentElt =  document.getElementById(selectType);
     let childrenElt = ``;
     //console.log(array)
+
+    //reset
+
+
     array.forEach(elt => {
 
         let id = addFilterID(elt)+"-"+selectType;
@@ -52,6 +64,13 @@ function fillSelect(selectType, type, array){
 
 }
 
+function removeAllFilterNodes() {
+    let elts = document.getElementsByClassName("filter");
+    Array.from(elts).forEach(elt => {
+        elt.remove();
+    })
+}
+
 function removeFilterNodeByID(id){
     //console.log(id)
     document.getElementById(id).remove()
@@ -73,9 +92,13 @@ function setMainInput() {
                 id : "searchbar",
                 value : null
             })
-            //resetSearching();
+            // RE - init recipes
+            removeNodesRecipes();
+            let filters = displayRecipes(data.recipes);
+            //setComportmentForSelects();
+            //launchSearchEngine(filters[0], filters[1], filters[2], data.recipes);
 
-            console.log(filtered)
+            //console.log(filtered)
         }
         if (inputSearch.value.length > 2) {
 
@@ -107,7 +130,7 @@ function setMainInput() {
                 })
             })
 
-            console.log(filtered)
+            //console.log(filtered)
 
             searching();
         }

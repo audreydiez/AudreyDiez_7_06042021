@@ -15,15 +15,18 @@ export function displayRecipes(recipesArray) {
     recipesArray.forEach((recipe) => {
         let recipeHTML = createRecipe(recipe);
         parentElt.insertAdjacentHTML('beforeend', recipeHTML);
+
         getIngredients(recipe.ingredients);
         getAppliances(recipe.appliance);
         getUstensils(recipe.ustensils);
 
+
     });
 
-    ingredientsArray = new Set(ingredientsArray);
-    appliancesArray = new Set(appliancesArray);
-    ustensilsArray = new Set(ustensilsArray);
+    ingredientsArray = ingredientsArray.filter(onlyUnique);
+    appliancesArray = appliancesArray.filter(onlyUnique);
+    ustensilsArray = ustensilsArray.filter(onlyUnique);
+
 
     return filters = [ingredientsArray, appliancesArray, ustensilsArray];
 }
@@ -37,7 +40,7 @@ export function displayRecipes(recipesArray) {
  */
 function createRecipe(recipe){
 
-    let lolcat = Math.floor(Math.random() * 400) + 399;
+    //let lolcat = Math.floor(Math.random() * 400) + 399;
 
     let ingredients =``;
     recipe.ingredients.forEach(ingredient => {
@@ -56,7 +59,7 @@ function createRecipe(recipe){
 
     return `<article class="recipe-container" id-recipe="${recipe.id}">
                 <figure class="recipe">
-                    <img src="http://placekitten.com/${lolcat}/400" alt="${recipe.name}" class="recipe__picture">
+                    <img src="assets/images/400x400.png" alt="${recipe.name}" class="recipe__picture">
                     <figcaption class="recipe__description">
                         <div class="header">
                             <span class="header__title pb-2">${recipe.name}</span>
@@ -75,16 +78,25 @@ function createRecipe(recipe){
             </article>`;
 }
 
+export function removeNodesRecipes (){
+    let elt = document.getElementsByClassName("recipe-container");
+    Array.from(elt).forEach(node => {
+        node.remove();
+    })
+}
 
 function getIngredients(ingredients){
+    //console.log("ingredients", ingredients);
+    //console.log("ingredientsArray", ingredientsArray);
     ingredients.forEach(ingredient => {
+        //console.log(ingredientsArray)
         ingredientsArray.push(ingredient.ingredient);
     })
 }
 
 function getAppliances(appliances){
     //console.log(appliancesArray)
-        appliancesArray.push(appliances);
+    appliancesArray.push(appliances);
 }
 
 function getUstensils(ustensils){
@@ -95,4 +107,8 @@ function getUstensils(ustensils){
 
 export function getFilters(){
 
+}
+
+export function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
 }
