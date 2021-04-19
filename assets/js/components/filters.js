@@ -61,20 +61,54 @@ function removeFilterNodeByID(id){
 function setMainInput() {
     const inputSearch = document.getElementById("searchbar");
     inputSearch.addEventListener("input", e => {
-        if (inputSearch.value.length === 0) {
-            filtered[0] ={
+    //console.log(inputSearch.value.length)
+        if (inputSearch.value.length < 3) {
+            // Reset array
+            filtered = filtered.filter(function( value ) {
+                return value.id !== "searchbar";
+            });
+
+            filtered.unshift({
                 type: "searchbar",
                 id : "searchbar",
                 value : null
-            };
-            resetSearching();
+            })
+            //resetSearching();
+
+            console.log(filtered)
         }
         if (inputSearch.value.length > 2) {
-            filtered[0] ={
-                type: "searchbar",
-                id : "searchbar",
-                value : inputSearch.value
-            };
+
+            let valuesInput = inputSearch.value.split(" ");
+            let valuesToSearch =[];
+
+            valuesInput.forEach(value => {
+                 if (value.length > 2) {
+                     value = value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                     if (/\s/.test(value) || value === "") {
+                     }
+                     else{
+                         valuesToSearch.push(value.toLowerCase());
+                     }
+                 }
+            })
+
+            //console.log(valuesToSearch)
+            //resetSearching();
+            filtered = filtered.filter(function( value ) {
+                return value.id !== "searchbar";
+            });
+
+            valuesToSearch.forEach( value => {
+                filtered.unshift({
+                    type: "searchbar",
+                    id : "searchbar",
+                    value : value
+                })
+            })
+
+            console.log(filtered)
+
             searching();
         }
 

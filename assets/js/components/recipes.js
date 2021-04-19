@@ -54,7 +54,7 @@ function createRecipe(recipe){
         }
     });
 
-    return `<article class="recipe-container">
+    return `<article class="recipe-container" id-recipe="${recipe.id}">
                 <figure class="recipe">
                     <img src="http://placekitten.com/${lolcat}/400" alt="${recipe.name}" class="recipe__picture">
                     <figcaption class="recipe__description">
