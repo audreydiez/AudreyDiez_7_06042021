@@ -29,14 +29,16 @@ export function launchSearchEngine(ingredientsArray, appliancesArray, ustensilsA
 }
 
 export function reloadSearchEngine (ingredientsArray, appliancesArray, ustensilsArray, recipesArray){
-    console.log(ingredientsArray)
-    console.log(appliancesArray)
-    console.log(ustensilsArray)
-    console.log(recipesArray)
+    //console.log(ingredientsArray)
+    //console.log(appliancesArray)
+    //console.log(ustensilsArray)
+    //console.log(recipesArray)
+    removeAllFilterNodes();
     fillSelect("ingredients-filters", "ingredients", ingredientsArray);
     fillSelect("appliances-filters", "appliances", appliancesArray);
     fillSelect("ustensils-filters","ustensils", ustensilsArray);
     recipes = recipesArray;
+    //console.log(recipes)
 }
 
 
@@ -107,6 +109,7 @@ function setMainInput() {
             // RE - init recipes
             removeNodesRecipes();
             let filters = displayRecipes(data.recipes);
+            reloadSearchEngine(filters[0], filters[1], filters[2], data.recipes);
             //setComportmentForSelects();
             //launchSearchEngine(filters[0], filters[1], filters[2], data.recipes);
 
@@ -142,7 +145,7 @@ function setMainInput() {
                 })
             })
 
-            //console.log(filtered)
+
 
             searching();
         }

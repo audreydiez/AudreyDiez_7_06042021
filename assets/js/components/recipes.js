@@ -12,6 +12,10 @@ export function displayRecipes(recipesArray) {
     let parentElt = document.getElementById("recipes");
     let filters;
 
+    ingredientsArray = [];
+    appliancesArray = [];
+    ustensilsArray = [];
+
     recipesArray.forEach((recipe) => {
         let recipeHTML = createRecipe(recipe);
         parentElt.insertAdjacentHTML('beforeend', recipeHTML);
@@ -69,7 +73,9 @@ function createRecipe(recipe){
                             <div class="description__ingredients pb-3">
                                 ${ingredients}
                             </div>
-                            <div class="description__excerpt">                               
+                            <div class="description__excerpt"> 
+                                                        <p>${recipe.appliance}</p> 
+                                                        <p>${recipe.ustensils}</p>
                                 <p>${recipe.description}</p>
                             </div>                                          
                         </div>
