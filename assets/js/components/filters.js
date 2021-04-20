@@ -1,5 +1,5 @@
 import data from "../data/data";
-import {searching, resetSearching} from "./search-engine";
+import {searching, resetSearching, normalizeString} from "./search-engine";
 import {displayRecipes, removeNodesRecipes} from "./recipes";
 import {setComportmentForSelects} from "./customs-select";
 
@@ -70,7 +70,7 @@ function fillSelect(selectType, type, array){
         childElt.addEventListener('click', e => {
             e.preventDefault();
             createTag(childElt.innerHTML, childElt.getAttribute("type"), idTag);
-            removeFilterNodeByID(id);
+            //removeFilterNodeByID(id);
         })
 
     });
@@ -91,6 +91,10 @@ function removeFilterNodeByID(id){
 
 }
 
+function setSelectInput(inputType){
+
+}
+
 function setMainInput() {
     const inputSearch = document.getElementById("searchbar");
     inputSearch.addEventListener("input", e => {
@@ -107,9 +111,7 @@ function setMainInput() {
                 value : null
             })
             // RE - init recipes
-            removeNodesRecipes();
-            let filters = displayRecipes(data.recipes);
-            reloadSearchEngine(filters[0], filters[1], filters[2], data.recipes);
+            reloadRecipes();
             //setComportmentForSelects();
             //launchSearchEngine(filters[0], filters[1], filters[2], data.recipes);
 
@@ -178,13 +180,17 @@ function createTag(elt, eltType, eltID){
     filtered.push({
         type : eltType,
         id : eltID,
-        value: elt
+        value: normalizeString(elt)
     });
 
     childrenElt.addEventListener('click', e => {
         e.preventDefault();
         removeTagNodeByID(eltID, type, childrenElt.getElementsByTagName("span")[0].innerText);
+        searching();
+
     })
+
+    searching();
     console.log(filtered)
 
 }
@@ -207,3 +213,8 @@ function removeTagNodeByID(eltID, type, text){
     console.log(filtered)
 }
 
+function reloadRecipes(){
+    removeNodesRecipes();
+    let filters = displayRecipes(data.recipes);
+    reloadSearchEngine(filters[0], filters[1], filters[2], data.recipes);
+}

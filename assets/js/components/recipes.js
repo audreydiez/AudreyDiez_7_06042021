@@ -31,7 +31,7 @@ export function displayRecipes(recipesArray) {
     appliancesArray = appliancesArray.filter(onlyUnique);
     ustensilsArray = ustensilsArray.filter(onlyUnique);
 
-
+    console.log(recipesArray)
     return filters = [ingredientsArray, appliancesArray, ustensilsArray];
 }
 

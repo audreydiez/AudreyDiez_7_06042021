@@ -13,37 +13,63 @@ export function searching(){
     //console.log(getFiltered());
     //console.log(getRecipes());
 
-    const filtered = getFiltered();    
+
+
+    const filtered = getFiltered();
+
+    if (filtered.length === 1 && filtered[0].value === null){
+        let filters = displayRecipes(data.recipes);
+        reloadSearchEngine(filters[0], filters[1], filters[2], data.recipes);
+
+        return
+    }
 
     recipesFiltered = [];
-    //console.log(filtered);
+    console.log(filtered);
     //console.log(recipes);
     //console.log(recipesFiltered);
 
     data.recipes.forEach( recipe => {
         filtered.forEach(filter => {
+            //console.log(filter.value)
 
-
-            if (normalizeString(recipe.name).includes(filter.value)) {
-                recipesFiltered.push(recipe);
-                
-            }
-            if (normalizeString(recipe.description).includes(filter.value)) {
-                recipesFiltered.push(recipe);
-
-            }
-            recipe.ingredients.forEach(ingredient => {
-                if (normalizeString(ingredient.ingredient).includes(filter.value)) {
+            if (filter.type === "searchbar" || filter.type === "ingredients-filters"){
+                if (normalizeString(recipe.name).includes(filter.value)) {
                     recipesFiltered.push(recipe);
 
                 }
-            })
+                if (normalizeString(recipe.description).includes(filter.value)) {
+                    recipesFiltered.push(recipe);
+
+                }
+                recipe.ingredients.forEach(ingredient => {
+                    if (normalizeString(ingredient.ingredient).includes(filter.value)) {
+                        recipesFiltered.push(recipe);
+
+                    }
+                })
+            }
+
+            else if (filter.type === "appliances-filters"){
+                if (normalizeString(recipe.appliance).includes(filter.value)) {
+                    recipesFiltered.push(recipe);
+                }
+
+            }
+            else if (filter.type === "ustensils-filters"){
+                recipe.ustensils.forEach(ustensil => {
+                    if (normalizeString(ustensil).includes(filter.value)) {
+                        recipesFiltered.push(recipe);
+
+                    }
+                })
+            }
 
         })
     });
     removeNodesRecipes();
     recipesFiltered = recipesFiltered.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i);
-    //console.log(recipesFiltered);
+    console.log(recipesFiltered);
     //console.log(filtered);
     let filters = displayRecipes(recipesFiltered);
     //console.log(filters)
@@ -58,7 +84,7 @@ export function resetSearching(){
     //console.log("reset");
 }
 
-function normalizeString(string) {
+export function normalizeString(string) {
     string = string.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     return string.toLowerCase();
 }
