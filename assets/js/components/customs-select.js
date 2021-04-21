@@ -6,10 +6,8 @@ const selectAppliancesInput = document.getElementById('appliance-input');
 const selectUstensilsInput = document.getElementById('ustensils-input');
 
 
-
- /* Set comportment for customs select
- * @param   {}
- * @return  {}
+/**
+ * Set event listenner for each custom select of index.html
  */
 export function setComportmentForSelects (){
     Array.from(customsSelect).forEach(select => {
@@ -20,10 +18,10 @@ export function setComportmentForSelects (){
     })
 }
 
-/* toggle filter under select
-* @param   {}
-* @return  {}
-*/
+/**
+ * Set comportment for filter container under the custom select
+ * @param { Element } select - HTML node
+ */
 function toggleSelect(select){
     let selectType = select.getAttribute("value") + "-filters";
     let filtersContainer = document.getElementById(selectType);
@@ -40,14 +38,12 @@ function toggleSelect(select){
 
         moveSelectRight(selectType);
 
-
-
         filtersContainer.style.display = "flex"
         filtersContainer.setAttribute("state", "expanded");
         document.getElementById(selectInput).style.width = "200px";
         document.getElementById(iconInput).style.transform = "rotate(180deg)";
 
-
+        // Set responsive rules
         if (getWidth() < 992){
             select.style.minWidth ="100%";
         }
@@ -70,6 +66,11 @@ function toggleSelect(select){
     }
 }
 
+/**
+ *  On second click, reset the custom select to his primary position
+ * @param { Element } selectTypeExpanded - Container filters expanded
+ * @param { Element } select - select parent element
+ */
 function resetCSSSelect (selectTypeExpanded, select){
 
     let iconInput = "fa-chevron-" + select.getAttribute("value");
@@ -89,6 +90,10 @@ function resetCSSSelect (selectTypeExpanded, select){
     })
 }
 
+/**
+ * On click, custom select expand to the right
+ * @param { Element } selectTypeExpanded - HTML Node expanded
+ */
 function moveSelectRight(selectTypeExpanded) {
 
     Array.from(customsSelect).forEach(select => {
@@ -134,6 +139,10 @@ function moveSelectRight(selectTypeExpanded) {
     })
 }
 
+/**
+ * reset positionto the left if custom select was expanded
+ * @param { Element } selectTypeExpanded - HTML Node expanded
+ */
 function moveSelectLeft(selectTypeExpanded) {
 
 
@@ -165,6 +174,10 @@ function moveSelectLeft(selectTypeExpanded) {
 }
 
 
+/**
+ * Get screen width for responsive adaptation
+ * @returns {number} - screen width in px
+ */
 function getWidth() {
     return Math.max(
         document.body.scrollWidth,

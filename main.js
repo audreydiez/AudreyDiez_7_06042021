@@ -6,21 +6,11 @@ import data from "./assets/js/data/data";
 
 const recipes = data.recipes;
 
-
-
-    //console.log(recipes)
     // Display recipe affiche les recettes depuis un tableau de recettes, et renvoie les filtres tirés de ses recettes triées
 
     let filters = displayRecipes(recipes);
-//console.log(filters)
     setComportmentForSelects();
     launchSearchEngine(filters[0], filters[1], filters[2], recipes);
 
 
-
-//init(recipes);
-
-
-
-//console.log(getFilters());
 

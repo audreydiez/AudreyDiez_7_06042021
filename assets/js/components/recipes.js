@@ -5,8 +5,9 @@ let ustensilsArray = [];
 
 
 /**
- * display all recipes
- * @param   {object}  recipes
+ * Parse recipe with any recipe array and get filters
+ * @param   {Array.<Object>}  recipesArray
+ * @returns {Array.<Object>} filters - filters for ingredients, appliances & ustensils custom select
  */
 export function displayRecipes(recipesArray) {
     let parentElt = document.getElementById("recipes");
@@ -23,28 +24,21 @@ export function displayRecipes(recipesArray) {
         getIngredients(recipe.ingredients);
         getAppliances(recipe.appliance);
         getUstensils(recipe.ustensils);
-
-
     });
 
     ingredientsArray = ingredientsArray.filter(onlyUnique);
     appliancesArray = appliancesArray.filter(onlyUnique);
     ustensilsArray = ustensilsArray.filter(onlyUnique);
 
-    //console.log(recipesArray)
     return filters = [ingredientsArray, appliancesArray, ustensilsArray];
 }
 
-
-
 /**
- * Create a recipe HTML
+ * Create a recipe in HTML and inject it in index.html
  * @param   {object}  recipe
- * @return  {string}    HTML recipe element
+ * @return  {string}  HTML recipe element
  */
 function createRecipe(recipe){
-
-    //let lolcat = Math.floor(Math.random() * 400) + 399;
 
     let ingredients =``;
     recipe.ingredients.forEach(ingredient => {
@@ -84,6 +78,9 @@ function createRecipe(recipe){
             </article>`;
 }
 
+/**
+ * Remove all recipes in HTML
+ */
 export function removeNodesRecipes (){
     let elt = document.getElementsByClassName("recipe-container");
     Array.from(elt).forEach(node => {
@@ -91,30 +88,38 @@ export function removeNodesRecipes (){
     })
 }
 
+/**
+ * Get ingredients from recipe and push them in ingredientsArray
+ * @param { Object } ingredients - from each recipe, push into ingredientsArray
+ */
 function getIngredients(ingredients){
-    //console.log("ingredients", ingredients);
-    //console.log("ingredientsArray", ingredientsArray);
     ingredients.forEach(ingredient => {
-        //console.log(ingredientsArray)
         ingredientsArray.push(ingredient.ingredient);
     })
 }
 
+/**
+ * Get appliances from recipe and push them in appliancesArray
+ * @param { Object } appliances - from each recipe, push into appliancesArray
+ */
 function getAppliances(appliances){
-    //console.log(appliancesArray)
     appliancesArray.push(appliances);
 }
 
+/**
+ * Get ustensils from recipe and push them in ustensilsArray
+ * @param { Object } ustensils - from each recipe, push into ustensilsArray
+ */
 function getUstensils(ustensils){
     ustensils.forEach(ustensil => {
         ustensilsArray.push(ustensil);
     })
 }
 
-export function getFilters(){
-
-}
-
+/**
+ * Get ustensils from recipe and push them in ustensilsArray
+ * @param { Object } ustensils - from each recipe, push into ustensilsArray
+ */
 export function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }
