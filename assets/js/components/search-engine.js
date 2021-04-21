@@ -68,7 +68,7 @@ export function normalizeString(string) {
 function searchAllAvailable (myRecipe, filtersArray){
 
     return filtersArray.every(function(filter){
-        console.log(filter)
+        //console.log(filter)
         return (
             normalizeString(myRecipe.name).indexOf(filter)>-1
             || normalizeString(myRecipe.description).indexOf(filter)>-1

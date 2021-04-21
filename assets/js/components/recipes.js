@@ -26,6 +26,8 @@ export function displayRecipes(recipesArray) {
         getUstensils(recipe.ustensils);
     });
 
+
+
     ingredientsArray = ingredientsArray.filter(onlyUnique);
     appliancesArray = appliancesArray.filter(onlyUnique);
     ustensilsArray = ustensilsArray.filter(onlyUnique);

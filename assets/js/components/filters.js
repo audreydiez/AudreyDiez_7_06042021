@@ -49,6 +49,21 @@ export function reloadSearchEngine (ingredientsArray, appliancesArray, ustensils
     fillSelect("appliances-filters", "appliances", appliancesArray);
     fillSelect("ustensils-filters","ustensils", ustensilsArray);
     recipes = recipesArray;
+
+
+    // remove filter already put in tag
+    let tagsElements = document.getElementsByClassName("tag");
+    //console.log(tagsElements)
+    Array.from(tagsElements).forEach(elt => {
+        let id = elt.getAttribute("id")+"-filters";
+        let filterToRemove = document.getElementById(id);
+
+        if (filterToRemove != null){
+            filterToRemove.remove();
+        }
+
+    })
+
 }
 
 
@@ -61,6 +76,7 @@ export function reloadSearchEngine (ingredientsArray, appliancesArray, ustensils
 function fillSelect(selectType, type, array){
     let parentElt =  document.getElementById(selectType);
     let childrenElt = ``;
+
 
     array.forEach(elt => {
 
@@ -81,12 +97,10 @@ function fillSelect(selectType, type, array){
         childElt.addEventListener('click', e => {
             e.preventDefault();
             createTag(childElt.innerHTML, childElt.getAttribute("type"), idTag);
-            removeFilterNodeByID(idTag);
         });
     });
-
-
 }
+
 
 /**
  * Remove all filters for each custom select
@@ -96,15 +110,6 @@ function removeAllFilterNodes() {
     Array.from(elts).forEach(elt => {
         elt.remove();
     })
-}
-
-/**
- * Remove filter (from custom select) by his ID
- * @param id
- */
-function removeFilterNodeByID(id){
-    let elt = id +"-filters";
-    document.getElementById(elt).remove();
 }
 
 
@@ -127,7 +132,16 @@ function setMainInput() {
                 value : null
             })
             // RE - init recipes
-            reloadRecipes();
+            let tagsElements = document.getElementsByClassName("tag");
+            console.log(tagsElements)
+
+            // If a tag exists, don't init recipe
+            if (tagsElements != null){
+                searching();
+            }
+            else {
+                reloadRecipes();
+            }
 
         }
         if (inputSearch.value.length > 2) {
