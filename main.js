@@ -13,4 +13,3 @@ const recipes = data.recipes;
     launchSearchEngine(filters[0], filters[1], filters[2], recipes);
 
 
-

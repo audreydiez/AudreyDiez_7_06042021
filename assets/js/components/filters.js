@@ -32,7 +32,9 @@ export function launchSearchEngine(ingredientsArray, appliancesArray, ustensilsA
     fillSelect("appliances-filters", "appliances", appliancesArray);
     fillSelect("ustensils-filters","ustensils", ustensilsArray);
     setMainInput();
+
     recipes = recipesArray;
+    setCustomSelectInput();
 }
 /**
  * Reload the search when user add an entrie, reset the filters of selects, fill selects
@@ -47,7 +49,6 @@ export function reloadSearchEngine (ingredientsArray, appliancesArray, ustensils
     fillSelect("appliances-filters", "appliances", appliancesArray);
     fillSelect("ustensils-filters","ustensils", ustensilsArray);
     recipes = recipesArray;
-
 }
 
 
@@ -81,8 +82,7 @@ function fillSelect(selectType, type, array){
             e.preventDefault();
             createTag(childElt.innerHTML, childElt.getAttribute("type"), idTag);
             removeFilterNodeByID(idTag);
-        })
-
+        });
     });
 
 
@@ -160,6 +160,32 @@ function setMainInput() {
             searching();
         }
     })
+}
+
+/**
+ * Set up the custom select input search
+ */
+function setCustomSelectInput(){
+    const customInput = document.getElementsByClassName("custom-input");
+
+    Array.from(customInput).forEach( input => {
+        input.addEventListener("input", e => {
+            const typeOfInput = input.className.substring(input.className.indexOf(" ") + 1) + "-filters";
+            let container = document.getElementById(typeOfInput);
+            let filters = container.querySelectorAll("a");
+
+
+            filters.forEach(filter => {
+                filter.style.display = "none";
+                if (normalizeString(filter.innerText).includes(normalizeString(input.value))){
+                    filter.style.display = "flex";
+                }
+            })
+
+        });
+    });
+
+
 }
 
 /**
