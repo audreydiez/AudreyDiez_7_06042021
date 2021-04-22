@@ -23,24 +23,31 @@ export function setComportmentForSelects (){
  * @param { Element } select - HTML node
  */
 function toggleSelect(select){
-    let selectType = select.getAttribute("value") + "-filters";
+    let selectType = select.getAttribute("id") + "-filters";
     let filtersContainer = document.getElementById(selectType);
 
-    let selectInput = "custom-input " + select.getAttribute("value") + "-input";
-    let iconInput = "fa-chevron-" + select.getAttribute("value");
+    let selectInput = "custom-input " + select.getAttribute("id");
+    let iconInput = "fa-chevron-" + select.getAttribute("id");
 
     // RESET all
     resetCSSSelect(selectType, select);
     moveSelectLeft(selectType);
 
     // expand / collapse filters
-    if(filtersContainer.getAttribute("state") === "collapsed"){
+    if(filtersContainer.getAttribute("data-state") === "collapsed"){
 
         moveSelectRight(selectType);
 
-        filtersContainer.style.display = "flex"
-        filtersContainer.setAttribute("state", "expanded");
-        document.getElementById(selectInput).style.width = "200px";
+        filtersContainer.style.display = "flex";
+        filtersContainer.setAttribute("data-state", "expanded");
+
+
+        Array.from(document.getElementsByClassName(selectInput)).forEach(elt => {
+            elt.style.width = "200px";
+        })
+
+
+
         document.getElementById(iconInput).style.transform = "rotate(180deg)";
 
         // Set responsive rules
@@ -59,9 +66,12 @@ function toggleSelect(select){
         // back to normal state
 
         filtersContainer.style.display = "none"
-        filtersContainer.setAttribute("state", "collapsed");
+        filtersContainer.setAttribute("data-state", "collapsed");
         select.style.minWidth ="";
-        document.getElementById(selectInput).style.width = "";
+
+        Array.from(document.getElementsByClassName(selectInput)).forEach(elt => {
+            elt.style.width = "";
+        })
 
     }
 }
@@ -73,17 +83,17 @@ function toggleSelect(select){
  */
 function resetCSSSelect (selectTypeExpanded, select){
 
-    let iconInput = "fa-chevron-" + select.getAttribute("value");
+    let iconInput = "fa-chevron-" + select.getAttribute("id");
     document.getElementById(iconInput).style.transform = "rotate(0deg)";
 
     Array.from(customsSelect).forEach(select => {
 
-        let selectType = select.getAttribute("value") + "-filters";
+        let selectType = select.getAttribute("id") + "-filters";
 
 
         if (selectType != selectTypeExpanded){
             document.getElementById(selectType).style.display = "none";
-            document.getElementById(selectType).setAttribute("state", "collapsed");
+            document.getElementById(selectType).setAttribute("data-state", "collapsed");
             select.style.minWidth ="";
 
         }
@@ -98,9 +108,16 @@ function moveSelectRight(selectTypeExpanded) {
 
     Array.from(customsSelect).forEach(select => {
 
-        let selectInput = "custom-input " + select.getAttribute("value") + "-input";
+        let selectInput = "custom-input " + select.getAttribute("id") + "-input";
+        let className = "custom-input " + select.getAttribute("id");
 
-        document.getElementById(selectInput).style.width = "110px";
+
+        Array.from(document.getElementsByClassName(className)).forEach(elt => {
+            elt.style.width = "110px";
+            }
+        )
+
+
 
 
         let selectValue = select.getAttribute("value")+"-filters";
@@ -148,10 +165,10 @@ function moveSelectLeft(selectTypeExpanded) {
 
     Array.from(customsSelect).forEach(select => {
 
-        let iconInput = "fa-chevron-" + select.getAttribute("value");
+        let iconInput = "fa-chevron-" + select.getAttribute("id");
         document.getElementById(iconInput).style.transform = "rotate(0deg)";
 
-        let selectValue = select.getAttribute("value")+"-filters";
+        let selectValue = select.getAttribute("data-value")+"-filters";
 
         if (selectTypeExpanded === "ingredients-filters"){
             customsSelect[1].style.left = "";
