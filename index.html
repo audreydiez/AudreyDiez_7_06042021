@@ -7,8 +7,8 @@
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
     <title>Les Petits Plats</title>
-  <script type="module" crossorigin src="/assets/index.8f5f3e06.js"></script>
-  <link rel="stylesheet" href="/assets/index.a9246e43.css">
+  <script type="module" crossorigin src="/assets/main.21c26ae8.js"></script>
+  <link rel="stylesheet" href="/assets/main.17c4db13.css">
 </head>
   <body>
     <div id="app" class="container">
@@ -19,7 +19,7 @@
             </figure>
             <form class="header__searchbar">
                 <input
-                        type="text"
+                        type="search"
                         id="searchbar"
                         class="search-input"
                         placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette"
@@ -29,201 +29,62 @@
                 </button>
             </form>
 
-            <div class="header__filtered text-start mt-3">
-                <div class="filter filter--blue">
-                    <span>Coco</span>
-                    <em class="far fa-times-circle"></em>
-                </div>
-                <div class="filter filter--red">
-                    <span>Coco</span>
-                    <em class="far fa-times-circle"></em>
-                </div>
-                <div class="filter filter--green">
-                    <span>Coco</span>
-                    <em class="far fa-times-circle"></em>
-                </div>
+            <div class="header__filtered text-start mt-3" id="tag-container">
+
             </div>
 
             <div class="header__filters text-start mt-3">
-                <div class="select select--blue">
-                    <label for="custom-input ingredients-input" class="sr-only">Ingredients</label>
-                    <input
-                            type="text"
-                            id="custom-input ingredients-input"
-                            class="custom-input"
-                            placeholder="Ingredients"
-                    />
-                    <em class="fas fa-chevron-up"></em>
+                <div class="select select--blue custom-select" id="ingredients">
+                    <div>
+
+                        <input
+                                type="text"
+                                class="custom-input ingredients"
+                                placeholder="Ingredients"
+                        />
+                        <em class="fas fa-chevron-up" id="fa-chevron-ingredients"></em>
+                    </div>
+                    <div class="filters-collapsed ingredients-filters" id="ingredients-filters">
+                    </div>
                 </div>
-                <div class="select select--green">
-                    <label for="custom-input appareil-input" class="sr-only">Appareil</label>
-                    <input
-                            type="text"
-                            id="custom-input appareil-input"
-                            class="custom-input"
-                            placeholder="Appareil"
-                    />
-                    <em class="fas fa-chevron-up"></em>
+
+                <div class="select select--green custom-select" id="appliances">
+                    <div>
+
+                        <input
+                                type="text"
+                                class="custom-input appliances"
+                                placeholder="Appareils"
+                        />
+                        <em class="fas fa-chevron-up" id="fa-chevron-appliances"></em>
+                    </div>
+                    <div class="filters-collapsed appliances-filters" id="appliances-filters">
+
+                    </div>
                 </div>
-                <div class="select select--red">
-                    <label for="custom-input ustensiles-input" class="sr-only">Ustensiles</label>
-                    <input
-                            type="text"
-                            id="custom-input ustensiles-input"
-                            class="custom-input"
-                            placeholder="Ustensiles"
-                    />
-                    <em class="fas fa-chevron-up"></em>
+                <div class="select select--red custom-select" id="ustensils">
+                    <div>
+
+                        <input
+                                type="text"
+                                class="custom-input ustensils"
+                                placeholder="Ustensiles"
+                        />
+                        <em class="fas fa-chevron-up" id="fa-chevron-ustensils"></em>
+                    </div>
+                    <div class="filters-collapsed ustensils-filters" id="ustensils-filters">
+
+                    </div>
                 </div>
 
             </div>
         </header>
 
-        <main class="recipes">
-            <article class="recipe-container">
-                <figure class="recipe">
-                    <img src="http://placekitten.com/600/400" alt="Une recette" class="recipe__picture">
-                    <figcaption class="recipe__description">
-                        <div class="header">
-                            <span class="header__title">Titre de la super recette de fou</span>
-                            <span class="header__time"><em class="far fa-clock"></em> 10 min</span>
-                        </div>
-                        <div class="description">
-                            <div class="description__ingredients pb-3">
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                            </div>
-                            <div class="description__excerpt">
-                                <p>I just wanna use the phone. Hey, hey, I've seen this one, I've seen this one. This is a classic, this is where Ralph dresses up as the man from space. Maybe you were adopted. Um, yeah well I might have sort of ran into my parents. Shape up, man. You're a slacker. You wanna be a slacker for the rest of your life?</p>
-                            </div>
-                        </div>
-                    </figcaption>
-                </figure>
-            </article>
-            <article class="recipe-container">
-                <figure class="recipe">
-                    <img src="http://placekitten.com/600/400" alt="Une recette" class="recipe__picture">
-                    <figcaption class="recipe__description">
-                        <div class="header">
-                            <span class="header__title pb-2">Titre de la super recette de fou</span>
-                            <span class="header__time"><em class="far fa-clock"></em> 10 min</span>
-                        </div>
-                        <div class="description">
-                            <div class="description__ingredients pb-3">
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                            </div>
-                            <div class="description__excerpt">
-                                <p>I just wanna use the phone. Hey, hey, I've seen this one, I've seen this one. This is a classic, this is where Ralph dresses up as the man from space. Maybe you were adopted. Um, yeah well I might have sort of ran into my parents. Shape up, man. You're a slacker. You wanna be a slacker for the rest of your life?</p>
-                            </div>
-                        </div>
-                    </figcaption>
-                </figure>
-            </article>
-            <article class="recipe-container">
-                <figure class="recipe">
-                    <img src="http://placekitten.com/600/400" alt="Une recette" class="recipe__picture">
-                    <figcaption class="recipe__description">
-                        <div class="header">
-                            <span class="header__title pb-2">Titre de la super recette de fou</span>
-                            <span class="header__time"><em class="far fa-clock"></em> 10 min</span>
-                        </div>
-                        <div class="description">
-                            <div class="description__ingredients pb-3">
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                            </div>
-                            <div class="description__excerpt">
-                                <p>I just wanna use the phone. Hey, hey, I've seen this one, I've seen this one. This is a classic, this is where Ralph dresses up as the man from space. Maybe you were adopted. Um, yeah well I might have sort of ran into my parents. Shape up, man. You're a slacker. You wanna be a slacker for the rest of your life?</p>
-                            </div>
-                        </div>
-                    </figcaption>
-                </figure>
-            </article>
-            <article class="recipe-container">
-                <figure class="recipe">
-                    <img src="http://placekitten.com/600/400" alt="Une recette" class="recipe__picture">
-                    <figcaption class="recipe__description">
-                        <div class="header">
-                            <span class="header__title pb-2">Titre de la super recette de fou</span>
-                            <span class="header__time"><em class="far fa-clock"></em> 10 min</span>
-                        </div>
-                        <div class="description">
-                            <div class="description__ingredients pb-3">
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                            </div>
-                            <div class="description__excerpt">
-                                <p>I just wanna use the phone. Hey, hey, I've seen this one, I've seen this one. This is a classic, this is where Ralph dresses up as the man from space. Maybe you were adopted. Um, yeah well I might have sort of ran into my parents. Shape up, man. You're a slacker. You wanna be a slacker for the rest of your life?</p>
-                            </div>
-                        </div>
-                    </figcaption>
-                </figure>
-            </article>
-            <article class="recipe-container">
-                <figure class="recipe">
-                    <img src="http://placekitten.com/600/400" alt="Une recette" class="recipe__picture">
-                    <figcaption class="recipe__description">
-                        <div class="header">
-                            <span class="header__title pb-2">Titre de la super recette de fou</span>
-                            <span class="header__time"><em class="far fa-clock"></em> 10 min</span>
-                        </div>
-                        <div class="description">
-                            <div class="description__ingredients pb-3">
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                            </div>
-                            <div class="description__excerpt">
-                                <p>I just wanna use the phone. Hey, hey, I've seen this one, I've seen this one. This is a classic, this is where Ralph dresses up as the man from space. Maybe you were adopted. Um, yeah well I might have sort of ran into my parents. Shape up, man. You're a slacker. You wanna be a slacker for the rest of your life?</p>
-                            </div>
-                        </div>
-                    </figcaption>
-                </figure>
-            </article>
-            <article class="recipe-container">
-                <figure class="recipe">
-                    <img src="http://placekitten.com/600/400" alt="Une recette" class="recipe__picture">
-                    <figcaption class="recipe__description">
-                        <div class="header">
-                            <span class="header__title pb-2">Titre de la super recette de fou</span>
-                            <span class="header__time"><em class="far fa-clock"></em> 10 min</span>
-                        </div>
-                        <div class="description">
-                            <div class="description__ingredients pb-3">
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                                <p class="ingredient"><span>ingredient:</span> number</p>
-                            </div>
-                            <div class="description__excerpt">
-                                <p>I just wanna use the phone. Hey, hey, I've seen this one, I've seen this one. This is a classic, this is where Ralph dresses up as the man from space. Maybe you were adopted. Um, yeah well I might have sort of ran into my parents. Shape up, man. You're a slacker. You wanna be a slacker for the rest of your life?</p>
-                            </div>
-                        </div>
-                    </figcaption>
-                </figure>
-            </article>
+        <main class="recipes" id="recipes">
+        <div id="no-results">
+            <p>Aucune recette ne correspond à votre critère… vous pouvez
+                chercher « tarte aux pommes », « poisson », etc</p>
+        </div>
 
         </main>
 
