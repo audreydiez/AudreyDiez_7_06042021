@@ -9,6 +9,7 @@ let recipesFiltered = [];
  * Searching algorithm for main search input and custom select
  */
 export function searching(){
+    document.getElementById("no-results").style.display = "none";
 
     const filtered = getFiltered();
 
@@ -45,6 +46,12 @@ export function searching(){
     // Load recipes in index.html
     let filters = displayRecipes(recipesFiltered);
     reloadSearchEngine(filters[0], filters[1], filters[2], recipesFiltered);
+
+    if (recipesFiltered.length === 0) {
+        document.getElementById("no-results").style.display = "flex";
+    }
+
+
 
 }
 

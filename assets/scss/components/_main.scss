@@ -14,6 +14,14 @@
         justify-content: space-between;
     }
 
+    #no-results{
+        display: none;
+        flex-basis: 100%;
+        text-align: center;
+        margin-top: 2rem;
+        justify-content: center;
+    }
+
     .recipe-container{
         flex-basis: 100%;
         max-width: 380px;

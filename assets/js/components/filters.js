@@ -133,7 +133,6 @@ function setMainInput() {
             })
             // RE - init recipes
             let tagsElements = document.getElementsByClassName("tag");
-            console.log(tagsElements)
 
             // If a tag exists, don't init recipe
             if (tagsElements != null){
