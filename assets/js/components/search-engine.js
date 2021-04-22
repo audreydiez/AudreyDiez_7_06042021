@@ -74,14 +74,26 @@ export function normalizeString(string) {
  */
 function searchAllAvailable (myRecipe, filtersArray){
 
+    // Pour chaque filtre...Every test si TOUS les elements du tableau vérifie une condition
     return filtersArray.every(function(filter){
-        //console.log(filter)
+
+        //const filterEstDansLeNomDeLaRecette = normalizeString(myRecipe.name).includes(filter);
+        const filterEstDansLeNomDeLaRecette = normalizeString(myRecipe.name).indexOf(filter)>-1;
+        const filterEstDansLaDescription = normalizeString(myRecipe.description).indexOf(filter)>-1;
+        const filterEstDansAppliance = normalizeString(myRecipe.appliance).indexOf(filter)>-1;
+        const filterEstDansIngredients = myRecipe.ingredients.filter(ingredient => normalizeString(ingredient.ingredient).indexOf(filter) > -1).length > 0;
+        const filterEstDansUstensils = myRecipe.ustensils.filter(ustensil => normalizeString(ustensil).indexOf(filter) > -1).length > 0;
+
+        // Si au moins une des conditions ci dessus/dessous est bonne, la recette correspond au filtre demandé
         return (
-            normalizeString(myRecipe.name).indexOf(filter)>-1
-            || normalizeString(myRecipe.description).indexOf(filter)>-1
-            || normalizeString(myRecipe.appliance).indexOf(filter)>-1
-            || myRecipe.ingredients.filter(ingredient => normalizeString(ingredient.ingredient).indexOf(filter) > -1).length > 0
-            || myRecipe.ustensils.filter(ustensil => normalizeString(ustensil).indexOf(filter) > -1).length > 0
+            // retourne la position de l'élément dans le tableau, si - 1 il est pas dedans donc false
+            filterEstDansLeNomDeLaRecette
+            || filterEstDansLaDescription
+            || filterEstDansAppliance
+            || filterEstDansIngredients
+            || filterEstDansUstensils
         )
     })
 }
+
+
