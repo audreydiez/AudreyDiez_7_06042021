@@ -36,6 +36,9 @@ export function searching(){
             recipesFiltered.push(recipe);
         }
 
+        // TODO TEST
+        console.log(searchAlgo(recipe, newFilters))
+
     });
 
     removeNodesRecipes();
@@ -96,4 +99,52 @@ function searchAllAvailable (myRecipe, filtersArray){
     })
 }
 
+// NEW ALGO
+function searchAlgo(myRecipe, filtersArray){
 
+    let recipeContainsFilters = false;
+
+    filtersArray.forEach(filter => {
+
+
+        if (    normalizeString(myRecipe.name).includes(filter)
+                || normalizeString(myRecipe.description).includes(filter)
+                || normalizeString(myRecipe.appliance).includes(filter)
+        ){
+
+            return recipeContainsFilters = true;
+
+        }
+
+        myRecipe.ingredients.forEach(ingredient => {
+        if (ingredient.ingredient.includes(filter)){
+            return recipeContainsFilters = true;
+            }
+        })
+
+        myRecipe.ustensils.forEach(ustensil => {
+            if (ustensil.includes(filter)){
+                return recipeContainsFilters = true;
+            }
+        })
+
+    })
+
+    return recipeContainsFilters;
+
+
+}
+
+// myRecipe.ingredients.forEach(ingredient => {
+//     if (ingredient.ingredient.includes(filter)){
+//         filterFound = true
+//     }
+// })
+// LA
+/*myRecipe.ustensils.forEach(ingredient => {
+    if (ingredient.ingredient.includes(filter)){
+        filterFound = true
+    }
+})*/
+
+///return recipeContainsAllFilters = true;

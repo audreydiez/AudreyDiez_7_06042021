@@ -1,8 +1,4 @@
-
-let ingredientsArray = [];
-let appliancesArray = [];
-let ustensilsArray = [];
-
+import {normalizeString} from "./search-engine";
 
 /**
  * Parse recipe with any recipe array and get filters
@@ -11,28 +7,26 @@ let ustensilsArray = [];
  */
 export function displayRecipes(recipesArray) {
     let parentElt = document.getElementById("recipes");
-    let filters;
 
-    ingredientsArray = [];
-    appliancesArray = [];
-    ustensilsArray = [];
+    let ingredientsArray = [];
+    let appliancesArray = [];
+    let ustensilsArray = [];
 
     recipesArray.forEach((recipe) => {
         let recipeHTML = createRecipe(recipe);
         parentElt.insertAdjacentHTML('beforeend', recipeHTML);
 
-        getIngredients(recipe.ingredients);
-        getAppliances(recipe.appliance);
-        getUstensils(recipe.ustensils);
+        addIngredients(recipe.ingredients, ingredientsArray);
+        addAppliances(recipe.appliance, appliancesArray);
+        addUstensils(recipe.ustensils, ustensilsArray);
     });
-
 
 
     ingredientsArray = ingredientsArray.filter(onlyUnique);
     appliancesArray = appliancesArray.filter(onlyUnique);
     ustensilsArray = ustensilsArray.filter(onlyUnique);
 
-    return filters = [ingredientsArray, appliancesArray, ustensilsArray];
+    return [ingredientsArray, appliancesArray, ustensilsArray];
 }
 
 /**
@@ -94,28 +88,31 @@ export function removeNodesRecipes (){
  * Get ingredients from recipe and push them in ingredientsArray
  * @param { Object } ingredients - from each recipe, push into ingredientsArray
  */
-function getIngredients(ingredients){
+function addIngredients(ingredients, ingredientsArray){
     ingredients.forEach(ingredient => {
         ingredientsArray.push(ingredient.ingredient);
     })
+    return ingredientsArray;
 }
 
 /**
  * Get appliances from recipe and push them in appliancesArray
  * @param { Object } appliances - from each recipe, push into appliancesArray
  */
-function getAppliances(appliances){
+function addAppliances(appliances, appliancesArray){
     appliancesArray.push(appliances);
+    return appliancesArray;
 }
 
 /**
  * Get ustensils from recipe and push them in ustensilsArray
  * @param { Object } ustensils - from each recipe, push into ustensilsArray
  */
-function getUstensils(ustensils){
+function addUstensils(ustensils, ustensilsArray){
     ustensils.forEach(ustensil => {
         ustensilsArray.push(ustensil);
     })
+    return ustensilsArray;
 }
 
 /**

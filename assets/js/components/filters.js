@@ -27,7 +27,7 @@ export function getFiltered(){
  * @param {Array.<Object>} recipesArray
  */
 export function launchSearchEngine(ingredientsArray, appliancesArray, ustensilsArray, recipesArray){
-    removeAllFilterNodes();
+
     fillSelect("ingredients-filters", "ingredients", ingredientsArray);
     fillSelect("appliances-filters", "appliances", appliancesArray);
     fillSelect("ustensils-filters","ustensils", ustensilsArray);
@@ -77,7 +77,6 @@ function fillSelect(selectType, type, array){
     let parentElt =  document.getElementById(selectType);
     let childrenElt = ``;
 
-
     array.forEach(elt => {
 
         let id = addFilterID(elt)+"-"+selectType;
@@ -85,19 +84,13 @@ function fillSelect(selectType, type, array){
 
         elt = elt.charAt(0).toUpperCase() + elt.slice(1);
 
-        let childElt = document.createElement("a");
-        childElt.setAttribute("href", "#");
-        childElt.classList.add("filter");
 
-        childElt.setAttribute("id", id);
-        childElt.setAttribute("type", selectType);
-        childElt.innerHTML =elt;
+        let filter = `<a href="#" class="filter" id="${id}" data-type="${selectType}" data-tagID="${idTag}">
+                    ${elt}
+                   </a>`;
 
-        parentElt.appendChild(childElt);
-        childElt.addEventListener('click', e => {
-            e.preventDefault();
-            createTag(childElt.innerHTML, childElt.getAttribute("type"), idTag);
-        });
+        parentElt.insertAdjacentHTML('beforeend', filter);
+
     });
 }
 
@@ -141,15 +134,16 @@ function setMainInput() {
             else {
                 reloadRecipes();
             }
-
+            return;
         }
-        if (inputSearch.value.length > 2) {
 
+        // If > 2
             let valuesInput = inputSearch.value.split(" ");
             let valuesToSearch =[];
 
             valuesInput.forEach(value => {
                  if (value.length > 2) {
+                     // A voir
                      value = value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
                      if (/\s/.test(value) || value === "") {
                      }
@@ -171,7 +165,7 @@ function setMainInput() {
                 })
             })
             searching();
-        }
+
     })
 }
 
@@ -217,37 +211,24 @@ function addFilterID (elt){
  * @param { String } eltType
  * @param { String } eltID
  */
-function createTag(elt, eltType, eltID){
+export function createTag(elt, eltType, eltID){
     let parentElt =  document.getElementById("tag-container");
-    let type = eltType.substr(0, eltType.lastIndexOf("-"));
+    let dataType = eltType.substr(0, eltType.lastIndexOf("-"));
 
-    let childrenElt = document.createElement("a");
-    childrenElt.setAttribute("href", "#");
-    childrenElt.classList.add("tag");
-    childrenElt.classList.add(eltType);
-    childrenElt.setAttribute("id", eltID);
-    childrenElt.setAttribute("type", type);
-    childrenElt.innerHTML =`<span>${elt}</span> 
-                             <em class="far fa-times-circle"></em>
-                            `;
 
-    parentElt.appendChild(childrenElt);
+    let tag = `<a href="#" class="tag ${eltType}" id="${eltID}" data-type="${dataType}">
+                    <span>${elt}</span><em class="far fa-times-circle"></em>
+               </a>`;
+
+    parentElt.insertAdjacentHTML('beforeend', tag);
 
     filtered.push({
-        type : eltType,
+        type : dataType,
         id : eltID,
         value: normalizeString(elt)
     });
 
-    childrenElt.addEventListener('click', e => {
-        e.preventDefault();
-        removeTagNodeByID(eltID, type, childrenElt.getElementsByTagName("span")[0].innerText);
-        searching();
-
-    });
-
     searching();
-
 }
 
 /**
@@ -256,7 +237,7 @@ function createTag(elt, eltType, eltID){
  * @param type
  * @param text
  */
-function removeTagNodeByID(eltID, type, text){
+export function removeTagNodeByID(eltID, type, text){
 
     let elt = document.getElementById(eltID);
 
