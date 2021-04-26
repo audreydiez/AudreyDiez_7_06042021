@@ -1,4 +1,4 @@
-import {createTag, removeTagNodeByID} from "./filters";
+import {createTag, removeTagNodeByID, filtered} from "./filters";
 import {searching} from "./search-engine";
 
 export function delegateEvents(){
@@ -39,7 +39,40 @@ function delegateTagsListener(){
         const innerTxt = e.path[1].innerText;
 
         removeTagNodeByID(dataID, dataType, innerTxt);
-        searching();
+        searching(filtered);
     });
 
+}
+
+/**
+ * Remove accents and return lowercase string
+ * @param {string} string
+ * @returns {string}
+ */
+export function sanitizeString(string){
+    // remove accent
+    string = string.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    return string.toLowerCase();
+}
+
+/**
+ * Create an ID unique from a string and normalize it
+ * @param { String } elt
+ * @returns { String }
+ */
+export function addFilterID (elt){
+    let text =sanitizeString(elt)
+    return text.replace(/[^A-Z0-9]/ig, "");
+}
+
+
+
+/**
+ * Remove all filters for each custom select
+ */
+export function removeNodes(className) {
+    const elements = document.getElementsByClassName(className);
+    Array.from(elements).forEach(elt => {
+        elt.remove();
+    })
 }

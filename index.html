@@ -12,9 +12,9 @@
     <div id="app" class="container">
 
         <header class="header text-center mb-5">
-            <figure class="header__figure figure mb-4">
-                <img src="assets/images/logo.png" class="figure-img img-fluid" alt="Les Petits Plats - Page d'accueil">
-            </figure>
+
+            <img src="assets/images/logo.png" class="figure-img img-fluid mb-4" alt="Les Petits Plats - Page d'accueil">
+
             <form class="header__searchbar">
                 <input
                         type="search"
@@ -42,7 +42,7 @@
                         />
                         <em class="fas fa-chevron-up" id="fa-chevron-ingredients"></em>
                     </div>
-                    <div class="filters-collapsed ingredients-filters" id="ingredients-filters">
+                    <div class="filters-collapsed ingredients-filters" id="ingredients-filters" data-state="collapsed">
                     </div>
                 </div>
 
@@ -56,7 +56,7 @@
                         />
                         <em class="fas fa-chevron-up" id="fa-chevron-appliances"></em>
                     </div>
-                    <div class="filters-collapsed appliances-filters" id="appliances-filters">
+                    <div class="filters-collapsed appliances-filters" id="appliances-filters" data-state="collapsed">
 
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                         />
                         <em class="fas fa-chevron-up" id="fa-chevron-ustensils"></em>
                     </div>
-                    <div class="filters-collapsed ustensils-filters" id="ustensils-filters">
+                    <div class="filters-collapsed ustensils-filters" id="ustensils-filters" data-state="collapsed">
 
                     </div>
                 </div>
@@ -79,7 +79,7 @@
         </header>
 
         <main class="recipes" id="recipes">
-        <div id="no-results">
+        <div id="no-results" class="no-results hide">
             <p>Aucune recette ne correspond à votre critère… vous pouvez
                 chercher « tarte aux pommes », « poisson », etc</p>
         </div>

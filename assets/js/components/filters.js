@@ -1,10 +1,11 @@
 import data from "../data/data";
-import {searching, normalizeString} from "./search-engine";
-import {displayRecipes, removeNodesRecipes} from "./recipes";
+import {searching} from "./search-engine";
+import {displayRecipes} from "./recipes";
 import {setComportmentForSelects} from "./customs-select";
+import {sanitizeString, addFilterID, removeNodes} from "./utils";
 
 let recipes = [];
-let filtered = [
+export let filtered = [
         {   type: "searchbar",
             id : "searchbar",
             value : null
@@ -44,7 +45,7 @@ export function launchSearchEngine(ingredientsArray, appliancesArray, ustensilsA
  * @param {Array.<Object>} recipesArray
  */
 export function reloadSearchEngine (ingredientsArray, appliancesArray, ustensilsArray, recipesArray){
-    removeAllFilterNodes();
+    removeNodes("filter");
     fillSelect("ingredients-filters", "ingredients", ingredientsArray);
     fillSelect("appliances-filters", "appliances", appliancesArray);
     fillSelect("ustensils-filters","ustensils", ustensilsArray);
@@ -95,15 +96,7 @@ function fillSelect(selectType, type, array){
 }
 
 
-/**
- * Remove all filters for each custom select
- */
-function removeAllFilterNodes() {
-    let elts = document.getElementsByClassName("filter");
-    Array.from(elts).forEach(elt => {
-        elt.remove();
-    })
-}
+
 
 
 /**
@@ -129,7 +122,8 @@ function setMainInput() {
 
             // If a tag exists, don't init recipe
             if (tagsElements != null){
-                searching();
+
+                searching(filtered);
             }
             else {
                 reloadRecipes();
@@ -137,34 +131,26 @@ function setMainInput() {
             return;
         }
 
-        // If > 2
-            let valuesInput = inputSearch.value.split(" ");
-            let valuesToSearch =[];
+        // If input.value > 2
+        let valuesInput = inputSearch.value.split(" ");
+        let valuesToSearch =[];
 
-            valuesInput.forEach(value => {
-                 if (value.length > 2) {
-                     // A voir
-                     value = value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                     if (/\s/.test(value) || value === "") {
-                     }
-                     else{
-                         valuesToSearch.push(value.toLowerCase());
-                     }
-                 }
+        valuesInput.forEach(value => {
+            if (value.length > 2) {
+                valuesToSearch.push(sanitizeString(value));
+            }
+        });
+
+        valuesToSearch.forEach( value => {
+            filtered.unshift({
+                type: "searchbar",
+                id : "searchbar",
+                value : value
             })
+        });
 
-            filtered = filtered.filter(function( value ) {
-                return value.id !== "searchbar";
-            });
 
-            valuesToSearch.forEach( value => {
-                filtered.unshift({
-                    type: "searchbar",
-                    id : "searchbar",
-                    value : value
-                })
-            })
-            searching();
+        searching(filtered);
 
     })
 }
@@ -184,7 +170,7 @@ function setCustomSelectInput(){
 
             filters.forEach(filter => {
                 filter.style.display = "none";
-                if (normalizeString(filter.innerText).includes(normalizeString(input.value))){
+                if (sanitizeString(filter.innerText).includes(sanitizeString(input.value))){
                     filter.style.display = "flex";
                 }
             })
@@ -195,15 +181,6 @@ function setCustomSelectInput(){
 
 }
 
-/**
- * Create an ID unique from a string and normalize it
- * @param { String } elt
- * @returns { String }
- */
-function addFilterID (elt){
-    let test =elt.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    return test.replace(/[^A-Z0-9]/ig, "");
-}
 
 /**
  * Create a tag HTML element when user select a filter, display it under main search input, and remove it from custom select
@@ -222,13 +199,26 @@ export function createTag(elt, eltType, eltID){
 
     parentElt.insertAdjacentHTML('beforeend', tag);
 
+
     filtered.push({
         type : dataType,
         id : eltID,
-        value: normalizeString(elt)
+        value: sanitizeString(elt)
     });
 
-    searching();
+    resetCustomSelectInput(dataType);
+
+    searching(filtered);
+}
+
+/**
+ * Remove input value
+ * @param {String} dataType - type of input
+ */
+function resetCustomSelectInput(dataType){
+    Array.from(document.getElementsByClassName("custom-input " + dataType)).forEach(elt => {
+        elt.value = "";
+    })
 }
 
 /**

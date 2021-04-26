@@ -1,4 +1,4 @@
-import {normalizeString} from "./search-engine";
+import {sanitizeString} from "./utils";
 
 /**
  * Parse recipe with any recipe array and get filters
@@ -20,11 +20,6 @@ export function displayRecipes(recipesArray) {
         addAppliances(recipe.appliance, appliancesArray);
         addUstensils(recipe.ustensils, ustensilsArray);
     });
-
-
-    ingredientsArray = ingredientsArray.filter(onlyUnique);
-    appliancesArray = appliancesArray.filter(onlyUnique);
-    ustensilsArray = ustensilsArray.filter(onlyUnique);
 
     return [ingredientsArray, appliancesArray, ustensilsArray];
 }
@@ -74,50 +69,69 @@ function createRecipe(recipe){
             </article>`;
 }
 
-/**
- * Remove all recipes in HTML
- */
-export function removeNodesRecipes (){
-    let elt = document.getElementsByClassName("recipe-container");
-    Array.from(elt).forEach(node => {
-        node.remove();
-    })
-}
+
 
 /**
- * Get ingredients from recipe and push them in ingredientsArray
+ * Add ingredients from recipe then push them in ingredientsArray
  * @param { Object } ingredients - from each recipe, push into ingredientsArray
+ * @param {Array} ingredientsArray
+ * @return {Array} ingredientsArray
  */
 function addIngredients(ingredients, ingredientsArray){
     ingredients.forEach(ingredient => {
-        ingredientsArray.push(ingredient.ingredient);
+
+        const test = ingredientsArray.filter(ing => sanitizeString(ing) === sanitizeString(ingredient.ingredient));
+
+        if (test.length <= 0) {
+            ingredientsArray.push(ingredient.ingredient);
+        }
     })
+
     return ingredientsArray;
 }
 
 /**
- * Get appliances from recipe and push them in appliancesArray
+ * Add appliances from recipe then push them in appliancesArray
  * @param { Object } appliances - from each recipe, push into appliancesArray
+ * @param {Array} appliancesArray
+ * @return {Array} appliancesArray
  */
 function addAppliances(appliances, appliancesArray){
-    appliancesArray.push(appliances);
+
+    const test = appliancesArray.filter(app => sanitizeString(app) === sanitizeString(appliances));
+
+    if (test.length <= 0) {
+        appliancesArray.push(appliances);
+    }
+
     return appliancesArray;
 }
 
 /**
- * Get ustensils from recipe and push them in ustensilsArray
+ * Add ustensils from recipe then push them in ustensilsArray
  * @param { Object } ustensils - from each recipe, push into ustensilsArray
+ * @param {Array} ustensilsArray
+ * @return {Array} ustensilsArray
  */
 function addUstensils(ustensils, ustensilsArray){
     ustensils.forEach(ustensil => {
-        ustensilsArray.push(ustensil);
+
+        const test = ustensilsArray.filter(ust => sanitizeString(ust) === sanitizeString(ustensil));
+
+        if (test.length <= 0) {
+            ustensilsArray.push(ustensil);
+        }
+
     })
     return ustensilsArray;
 }
 
 /**
- * Get ustensils from recipe and push them in ustensilsArray
- * @param { Object } ustensils - from each recipe, push into ustensilsArray
+ * Check if the value is the first occuring, if not, it's a duplicate
+ * @param { string } value
+ * @param { number } index
+ * @param { string } self
+ * @return { string } unique
  */
 export function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;

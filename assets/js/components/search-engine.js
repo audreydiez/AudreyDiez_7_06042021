@@ -1,5 +1,6 @@
 import {getFiltered, reloadSearchEngine} from "./filters";
-import {displayRecipes, removeNodesRecipes} from "./recipes";
+import {displayRecipes} from "./recipes";
+import {sanitizeString, addFilterID, removeNodes} from "./utils";
 import data from "../data/data";
 
 let recipesFiltered = [];
@@ -7,11 +8,11 @@ let recipesFiltered = [];
 
 /**
  * Searching algorithm for main search input and custom select
+ * @param { array } filtered
  */
-export function searching(){
-    document.getElementById("no-results").style.display = "none";
-
-    const filtered = getFiltered();
+export function searching(filtered){
+    //document.getElementById("no-results").style.display = "none";
+    document.getElementById("no-results").classList.add("hide");
 
     // If filtered is empty, reset search
     if (filtered.length === 1 && filtered[0].value === null){
@@ -37,11 +38,11 @@ export function searching(){
         }
 
         // TODO TEST
-        console.log(searchAlgo(recipe, newFilters))
+        //console.log(searchAlgo(recipe, newFilters))
 
     });
+    removeNodes("recipe-container");
 
-    removeNodesRecipes();
 
     // Remove duplicate recipes
     recipesFiltered = recipesFiltered.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i);
@@ -51,23 +52,13 @@ export function searching(){
     reloadSearchEngine(filters[0], filters[1], filters[2], recipesFiltered);
 
     if (recipesFiltered.length === 0) {
-        document.getElementById("no-results").style.display = "flex";
+        //document.getElementById("no-results").style.display = "flex";
+        document.getElementById("no-results").classList.remove("hide");
     }
 
-
-
 }
 
 
-/**
- * Remove accents and return lowercase string
- * @param {string} string
- * @returns {string}
- */
-export function normalizeString(string) {
-    string = string.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    return string.toLowerCase();
-}
 
 /**
  * Search in object Recipe if contains all elements of the filtersArray -
@@ -81,11 +72,11 @@ function searchAllAvailable (myRecipe, filtersArray){
     return filtersArray.every(function(filter){
 
         //const filterEstDansLeNomDeLaRecette = normalizeString(myRecipe.name).includes(filter);
-        const filterEstDansLeNomDeLaRecette = normalizeString(myRecipe.name).indexOf(filter)>-1;
-        const filterEstDansLaDescription = normalizeString(myRecipe.description).indexOf(filter)>-1;
-        const filterEstDansAppliance = normalizeString(myRecipe.appliance).indexOf(filter)>-1;
-        const filterEstDansIngredients = myRecipe.ingredients.filter(ingredient => normalizeString(ingredient.ingredient).indexOf(filter) > -1).length > 0;
-        const filterEstDansUstensils = myRecipe.ustensils.filter(ustensil => normalizeString(ustensil).indexOf(filter) > -1).length > 0;
+        const filterEstDansLeNomDeLaRecette = sanitizeString(myRecipe.name).indexOf(filter)>-1;
+        const filterEstDansLaDescription = sanitizeString(myRecipe.description).indexOf(filter)>-1;
+        const filterEstDansAppliance = sanitizeString(myRecipe.appliance).indexOf(filter)>-1;
+        const filterEstDansIngredients = myRecipe.ingredients.filter(ingredient => sanitizeString(ingredient.ingredient).indexOf(filter) > -1).length > 0;
+        const filterEstDansUstensils = myRecipe.ustensils.filter(ustensil => sanitizeString(ustensil).indexOf(filter) > -1).length > 0;
 
         // Si au moins une des conditions ci dessus/dessous est bonne, la recette correspond au filtre demandé
         return (
@@ -107,9 +98,9 @@ function searchAlgo(myRecipe, filtersArray){
     filtersArray.forEach(filter => {
 
 
-        if (    normalizeString(myRecipe.name).includes(filter)
-                || normalizeString(myRecipe.description).includes(filter)
-                || normalizeString(myRecipe.appliance).includes(filter)
+        if (    sanitizeString(myRecipe.name).includes(filter)
+                || sanitizeString(myRecipe.description).includes(filter)
+                || sanitizeString(myRecipe.appliance).includes(filter)
         ){
 
             return recipeContainsFilters = true;

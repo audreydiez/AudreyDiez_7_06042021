@@ -35,7 +35,6 @@ function toggleSelect(select){
 
     // expand / collapse filters
     if(filtersContainer.getAttribute("data-state") === "collapsed"){
-
         moveSelectRight(selectType);
 
         filtersContainer.style.display = "flex";
