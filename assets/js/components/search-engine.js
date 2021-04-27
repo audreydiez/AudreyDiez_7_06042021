@@ -69,9 +69,10 @@ function searchAlgo(myRecipe, filtersArray){
 
     let filterFoundArray = [];
 
-    let foundInRecipe = false;
+
 
     filtersArray.forEach(filter => {
+        let foundInRecipe = false;
 
         if (    sanitizeString(myRecipe.name).includes(filter)
                 || sanitizeString(myRecipe.description).includes(filter)
@@ -95,7 +96,7 @@ function searchAlgo(myRecipe, filtersArray){
         filterFoundArray.push(foundInRecipe);
     })
 
-    console.log(filterFoundArray)
+
 
     if (filterFoundArray.includes(false)){
         return false;
