@@ -33,7 +33,6 @@ export function launchSearchEngine(ingredientsArray, appliancesArray, ustensilsA
     fillSelect("appliances-filters", "appliances", appliancesArray);
     fillSelect("ustensils-filters","ustensils", ustensilsArray);
     setMainInput();
-
     recipes = recipesArray;
     setCustomSelectInput();
 }
@@ -52,9 +51,9 @@ export function reloadSearchEngine (ingredientsArray, appliancesArray, ustensils
     recipes = recipesArray;
 
 
-    // remove filter already put in tag
+    // remove filter (in custom select) already put in tag
     let tagsElements = document.getElementsByClassName("tag");
-    //console.log(tagsElements)
+
     Array.from(tagsElements).forEach(elt => {
         let id = elt.getAttribute("id")+"-filters";
         let filterToRemove = document.getElementById(id);
@@ -62,11 +61,8 @@ export function reloadSearchEngine (ingredientsArray, appliancesArray, ustensils
         if (filterToRemove != null){
             filterToRemove.remove();
         }
-
     })
-
 }
-
 
 /**
  * Fill the custom select with appropriate filters
@@ -94,8 +90,6 @@ function fillSelect(selectType, type, array){
 
     });
 }
-
-
 
 
 
@@ -136,18 +130,15 @@ function setMainInput() {
         let valuesToSearch =[];
 
 
-
         valuesInput.forEach(value => {
             if (value.length > 2) {
                 valuesToSearch.push(sanitizeString(value));
             }
         });
 
-
         filtered = filtered.filter(function( value ) {
             return value.id !== "searchbar";
         });
-
 
         //console.log(filtered)
         valuesToSearch.forEach( value => {
@@ -157,7 +148,6 @@ function setMainInput() {
                 value : value
             })
         });
-
 
         searching(filtered);
 
@@ -251,7 +241,6 @@ export function removeTagNodeByID(eltID, type, text){
     fillSelect(type+"-filters",type, array);
 
 }
-
 
 /**
  * Remove all recipes reload recipes from origin
