@@ -33,7 +33,10 @@ export function searching(filtered){
 
     // For each recipe, if return true, push recipe in RecipesFiltered
     data.recipes.forEach( recipe => {
-        if (searchAllAvailable(recipe, newFilters)){
+
+        if ( searchAlgo(recipe, newFilters)
+            //searchAllAvailable(recipe, newFilters)
+        ){
             recipesFiltered.push(recipe);
         }
 
@@ -93,35 +96,49 @@ function searchAllAvailable (myRecipe, filtersArray){
 // NEW ALGO
 function searchAlgo(myRecipe, filtersArray){
 
-    let recipeContainsFilters = false;
+    let filterFoundArray = [];
+
+    let foundInRecipe = false;
+    // Pour chaque filtre, push la valeur trouvé ou non dans le tableau. A la fin si le tableau contient un seul non, retourne false
 
     filtersArray.forEach(filter => {
-
 
         if (    sanitizeString(myRecipe.name).includes(filter)
                 || sanitizeString(myRecipe.description).includes(filter)
                 || sanitizeString(myRecipe.appliance).includes(filter)
         ){
 
-            return recipeContainsFilters = true;
+            foundInRecipe = true;
 
         }
 
         myRecipe.ingredients.forEach(ingredient => {
-        if (ingredient.ingredient.includes(filter)){
-            return recipeContainsFilters = true;
-            }
+            if (sanitizeString(ingredient.ingredient).includes(filter)){
+
+                foundInRecipe = true;
+                }
         })
 
         myRecipe.ustensils.forEach(ustensil => {
-            if (ustensil.includes(filter)){
-                return recipeContainsFilters = true;
+            if (sanitizeString(ustensil).includes(filter)){
+                foundInRecipe = true;
             }
         })
-
+        filterFoundArray.push(foundInRecipe);
     })
 
-    return recipeContainsFilters;
+    console.log(filterFoundArray)
+
+    if (filterFoundArray.includes(false)){
+        return false;
+    }
+    else {
+        return true;
+    }
+
+
+
+
 
 
 }

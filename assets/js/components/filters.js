@@ -149,7 +149,7 @@ function setMainInput() {
         });
 
 
-        console.log(filtered)
+        //console.log(filtered)
         valuesToSearch.forEach( value => {
             filtered.unshift({
                 type: "searchbar",
