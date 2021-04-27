@@ -50,10 +50,10 @@ function createRecipe(recipe){
                 <figure class="recipe">
                     <img src="assets/images/400x400.png" alt="${recipe.name}" class="recipe__picture">
                     <figcaption class="recipe__description">
-                        <div class="header">
+                        <header class="header">
                             <span class="header__title pb-2">${recipe.name}</span>
                             <span class="header__time"><em class="far fa-clock"></em> ${recipe.time} min</span>
-                        </div>
+                        </header>
                         <div class="description">
                             <div class="description__ingredients pb-3">
                                 ${ingredients}

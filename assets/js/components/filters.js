@@ -135,12 +135,21 @@ function setMainInput() {
         let valuesInput = inputSearch.value.split(" ");
         let valuesToSearch =[];
 
+
+
         valuesInput.forEach(value => {
             if (value.length > 2) {
                 valuesToSearch.push(sanitizeString(value));
             }
         });
 
+
+        filtered = filtered.filter(function( value ) {
+            return value.id !== "searchbar";
+        });
+
+
+        console.log(filtered)
         valuesToSearch.forEach( value => {
             filtered.unshift({
                 type: "searchbar",
