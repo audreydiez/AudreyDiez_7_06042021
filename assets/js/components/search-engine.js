@@ -31,11 +31,13 @@ export function searching(filtered){
         }
     })
 
+
     // ALGO 1
     data.recipes.forEach( recipe => {
 
         if ( searchAlgo(recipe, newFilters)
         ){
+
             recipesFiltered.push(recipe);
         }
 
@@ -69,38 +71,43 @@ function searchAlgo(myRecipe, filtersArray){
 
     let filterFoundArray = [];
 
-    let foundInRecipe = false;
+
 
     filtersArray.forEach(filter => {
+        let foundInRecipe = "no";
 
         if (    sanitizeString(myRecipe.name).includes(filter)
                 || sanitizeString(myRecipe.description).includes(filter)
                 || sanitizeString(myRecipe.appliance).includes(filter)
         ){
-            foundInRecipe = true;
+
+            foundInRecipe = "yes";
+
         }
 
         myRecipe.ingredients.forEach(ingredient => {
             if (sanitizeString(ingredient.ingredient).includes(filter)){
-                foundInRecipe = true;
+                foundInRecipe = "yes";
                 }
         })
 
         myRecipe.ustensils.forEach(ustensil => {
             if (sanitizeString(ustensil).includes(filter)){
-                foundInRecipe = true;
+                foundInRecipe = "yes";
+
             }
         })
 
         filterFoundArray.push(foundInRecipe);
     })
 
-    console.log(filterFoundArray)
 
-    if (filterFoundArray.includes(false)){
+
+    if (filterFoundArray.includes("no")){
         return false;
     }
     else {
+
         return true;
     }
 
