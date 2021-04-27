@@ -37,6 +37,10 @@
             margin:  0 0.5rem 0.5rem 0;
             padding: 0.6rem 1rem;
             border-radius: 5px;
+
+            em{
+                margin-left: 0.5rem;
+            }
             &.ingredients-filters{
                 background-color: $colour-secondary;
             }
