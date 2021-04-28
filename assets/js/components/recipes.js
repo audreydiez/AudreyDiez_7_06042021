@@ -1,4 +1,7 @@
-import {sanitizeString} from "./utils";
+import {sanitizeString, lightText} from "./utils";
+
+
+
 
 /**
  * Parse recipe with any recipe array and get filters
@@ -46,7 +49,16 @@ function createRecipe(recipe){
         }
     });
 
-    return `<article class="recipe-container" id-recipe="${recipe.id}">
+    const dataRecipe = parseData(recipe);
+
+
+    return `<article    class="recipe-container" 
+                        data-recipeId="${recipe.id}" 
+                        data-mainSearch="${dataRecipe[0]}"
+                        data-ingredients="${dataRecipe[1]}"
+                        data-appliance="${dataRecipe[2]}"
+                        data-ustensils="${dataRecipe[3]}"
+                 >
                 <figure class="recipe">
                     <img src="assets/images/400x400.png" alt="${recipe.name}" class="recipe__picture">
                     <figcaption class="recipe__description">
@@ -126,13 +138,29 @@ function addUstensils(ustensils, ustensilsArray){
     return ustensilsArray;
 }
 
+
 /**
- * Check if the value is the first occuring, if not, it's a duplicate
- * @param { string } value
- * @param { number } index
- * @param { string } self
- * @return { string } unique
+ * Parse data from a recipe for sanitize and remove no needed texts
+ * @param { Object } myRecipe
+ * @return {Array, Array, Array, Array} - Main search, ingredients, appliance and ustensils (string arrays)
  */
-export function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
+function parseData(myRecipe){
+
+    let recipeMainSearch;
+    let recipeIngredientsSearch = [];
+    let recipeApplianceSearch;
+    let recipeUstensilsSearch = [];
+
+    recipeMainSearch = lightText(myRecipe.name +" " + myRecipe.description);
+    recipeApplianceSearch = lightText(myRecipe.appliance);
+
+    myRecipe.ingredients.forEach(ingredient => {
+        recipeIngredientsSearch.push(sanitizeString(ingredient.ingredient));
+    });
+    myRecipe.ustensils.forEach(ustensil => {
+        recipeUstensilsSearch.push(sanitizeString(ustensil));
+    });
+
+    return [recipeMainSearch, recipeIngredientsSearch, recipeApplianceSearch, recipeUstensilsSearch]
+
 }

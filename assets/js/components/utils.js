@@ -18,11 +18,14 @@ function delegateFiltersListener(){
         const nodeContainer = document.getElementById(elt.getAttribute("id"));
         nodeContainer.addEventListener("click", function (e){
             e.preventDefault();
-            const dataTagID = e.path[0].attributes[4].nodeValue;
-            const dataType = e.path[0].attributes[3].nodeValue;
-            const innerTxt = e.path[0].innerText;
+            if(e.target.tagName.toLowerCase() === 'a'){
+                const dataTagID = e.path[0].attributes[4].nodeValue;
+                const dataType = e.path[0].attributes[3].nodeValue;
+                const innerTxt = e.path[0].innerText;
 
-            createTag(innerTxt, dataType, dataTagID);
+                createTag(innerTxt, dataType, dataTagID);
+            }
+
 
         })
     });
@@ -56,6 +59,8 @@ function delegateTagsListener(){
 export function sanitizeString(string){
     // remove accent
     string = string.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    string = string.split('.').join("");
+    string = string.split(',').join("");
     return string.toLowerCase();
 }
 
@@ -70,7 +75,6 @@ export function addFilterID (elt){
 }
 
 
-
 /**
  * Remove all filters for each custom select
  */
@@ -80,3 +84,25 @@ export function removeNodes(className) {
         elt.remove();
     })
 }
+
+/**
+ * return a lighter texts whithout duplicate, accent, dot, and unnecessary small words
+ * @param { String } string
+ * @returns { String } string
+ */
+export function lightText(string){
+    string = sanitizeString(string);
+    string = string.split(" ");
+
+    string.forEach( function (word, index, array){
+        //console.log(word, word.length)
+        if (word.length < 3) {
+            array.splice(index, 1)
+        }
+    });
+
+    string = [...new Set(string)];
+
+    return string;
+}
+

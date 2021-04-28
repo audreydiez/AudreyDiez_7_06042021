@@ -1,4 +1,4 @@
-import {getFiltered, reloadSearchEngine} from "./filters";
+import {reloadSearchEngine} from "./filters";
 import {displayRecipes} from "./recipes";
 import {sanitizeString, addFilterID, removeNodes} from "./utils";
 import data from "../data/data";
