@@ -23,19 +23,18 @@ export function searching(filtered){
 
     recipesFiltered = [];
 
-    // Set an array of filters from filtered array
-    let newFilters = [];
-    filtered.forEach(filter => {
-        if(filter.value != null){
-            newFilters.push(filter.value);
-        }
-    })
+    console.log(filtered)
+
+    // NEW FONCTION;
+    const searchFilters = splitArrays(filtered);
+    console.log(searchFilters)
 
     // ALGO 1
     data.recipes.forEach( recipe => {
 
-        if ( searchAlgo(recipe, newFilters)
+        if ( searchAlgo(recipe, searchFilters)
         ){
+
             recipesFiltered.push(recipe);
         }
 
@@ -57,6 +56,35 @@ export function searching(filtered){
 
 }
 
+function splitArrays(filtersArray){
+    const words = [];
+    const ingredients = [];
+    const appliances = [];
+    const ustensils = [];
+
+
+    filtersArray.forEach(filter => {
+        switch (filter.type) {
+            case 'searchbar':
+                words.push(filter.value);
+                break;
+            case 'ingredients':
+                ingredients.push(filter.value);
+                break;
+            case 'ustensils':
+                ustensils.push(filter.value);
+                break;
+            case 'appliances':
+                appliances.push(filter.value);
+                break;
+            default:
+                return;
+        }
+    })
+    return [words, ingredients, appliances, ustensils];
+
+}
+
 
 
 /**
@@ -69,39 +97,89 @@ function searchAlgo(myRecipe, filtersArray){
 
     let filterFoundArray = [];
 
+    // Check main input
+    if (filtersArray[0][0] != null){
+        filtersArray[0].forEach(filter => {
 
+            let foundInRecipe = false;
 
-    filtersArray.forEach(filter => {
-        let foundInRecipe = false;
+            if ( sanitizeString(myRecipe.name).indexOf(filter) > -1
+                || sanitizeString(myRecipe.description).indexOf(filter) > -1
+            ){
 
-        if (    sanitizeString(myRecipe.name).includes(filter)
-                || sanitizeString(myRecipe.description).includes(filter)
-                || sanitizeString(myRecipe.appliance).includes(filter)
-        ){
-            foundInRecipe = true;
-        }
-
-        myRecipe.ingredients.forEach(ingredient => {
-            if (sanitizeString(ingredient.ingredient).includes(filter)){
-                foundInRecipe = true;
-                }
-        })
-
-        myRecipe.ustensils.forEach(ustensil => {
-            if (sanitizeString(ustensil).includes(filter)){
                 foundInRecipe = true;
             }
+
+            myRecipe.ingredients.forEach(ingredient => {
+                if (sanitizeString(ingredient.ingredient).indexOf(filter) > -1){
+
+                    foundInRecipe = true;
+
+                }
+            })
+
+            filterFoundArray.push(foundInRecipe);
         })
 
-        filterFoundArray.push(foundInRecipe);
-    })
+    }
 
+    // Check ingredients
+    if (filtersArray[1][0] != null){
+        filtersArray[1].forEach(filter => {
+
+            let foundInRecipe = false;
+
+            myRecipe.ingredients.forEach(ingredient => {
+                if (sanitizeString(ingredient.ingredient).indexOf(filter) > -1){
+
+                    foundInRecipe = true;
+
+                }
+            })
+
+            filterFoundArray.push(foundInRecipe);
+        })
+    }
+
+    // Check appliances
+    if (filtersArray[2][0] != null){
+        filtersArray[2].forEach(filter => {
+
+            let foundInRecipe = false;
+
+            if ( sanitizeString(myRecipe.appliance).indexOf(filter) > -1
+            ){
+
+                foundInRecipe = true;
+
+            }
+            filterFoundArray.push(foundInRecipe);
+        })
+    }
+
+    // Check ustensils
+    if (filtersArray[3][0] != null){
+        filtersArray[3].forEach(filter => {
+
+            let foundInRecipe = false;
+
+            myRecipe.ustensils.forEach(ustensil => {
+                if (sanitizeString(ustensil).indexOf(filter) > -1){
+
+                    foundInRecipe = true;
+
+                }
+            })
+            filterFoundArray.push(foundInRecipe);
+        })
+    }
 
 
     if (filterFoundArray.includes(false)){
         return false;
     }
     else {
+
         return true;
     }
 

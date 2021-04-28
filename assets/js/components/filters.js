@@ -5,9 +5,10 @@ import {setComportmentForSelects} from "./customs-select";
 import {sanitizeString, addFilterID, removeNodes} from "./utils";
 
 let recipes = [];
+
 export let filtered = [
         {   type: "searchbar",
-            id : "searchbar",
+            id : null,
             value : null
         }
     ];
@@ -103,12 +104,12 @@ function setMainInput() {
         if (inputSearch.value.length < 3) {
             // Reset array
             filtered = filtered.filter(function( value ) {
-                return value.id !== "searchbar";
+                return value.type !== "searchbar";
             });
 
             filtered.unshift({
                 type: "searchbar",
-                id : "searchbar",
+                id : null,
                 value : null
             })
             // RE - init recipes
@@ -137,14 +138,14 @@ function setMainInput() {
         });
 
         filtered = filtered.filter(function( value ) {
-            return value.id !== "searchbar";
+            return value.type !== "searchbar";
         });
 
         //console.log(filtered)
         valuesToSearch.forEach( value => {
             filtered.unshift({
                 type: "searchbar",
-                id : "searchbar",
+                id : value,
                 value : value
             })
         });
