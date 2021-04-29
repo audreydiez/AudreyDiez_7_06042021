@@ -1,5 +1,5 @@
 import {reloadSearchEngine} from "./filters";
-import {displayRecipes, getRecipes} from "./recipes";
+import {displayRecipes, getRecipes, parsedRecipes} from "./recipes";
 import {sanitizeString, addFilterID, removeNodes} from "./utils";
 import data from "../data/data";
 
@@ -23,7 +23,7 @@ export function searching(filtered){
 
     recipesFiltered = [];
 
-    console.log(filtered)
+    console.log(parsedRecipes)
 
     // Set filters Array
     const searchFilters = splitArrays(filtered);
@@ -33,6 +33,7 @@ export function searching(filtered){
 
     // Build recipe Array and display
     const recipesMatched = getRecipes(recipeID);
+    console.log(recipesMatched)
 
     removeNodes("recipe-container");
     let filters = displayRecipes(recipesMatched);
@@ -41,6 +42,11 @@ export function searching(filtered){
 
 }
 
+/**
+ * Searching algorithm for main search input and custom select in all recipes and return array with matched ID
+ * @param { array } filters
+ * @return { array } recipes ID matched with filters
+ */
 function newAlgo(filtersArray){
     const recipeNodes = document.getElementsByTagName("article");
     console.log(filtersArray)
@@ -49,9 +55,7 @@ function newAlgo(filtersArray){
 
     //console.log(recipeNode)
 
-    Array.from(recipeNodes).forEach(recipeNode => {
-
-        //console.log(recipeNode.getAttribute("data-mainSearch"))
+    Array.from(parsedRecipes).forEach(recipe => {
 
         let filterFoundArray = [];
 
@@ -59,10 +63,12 @@ function newAlgo(filtersArray){
             filtersArray[0].forEach(filter => {
                 let foundInRecipe = false;
 
-                if (recipeNode.getAttribute("data-mainSearch").includes(filter)){
+                if (recipe.mainSearch.includes(filter)){
                     foundInRecipe = true;
+                    console.log(filter)
                 }
-                if (recipeNode.getAttribute("data-ingredients").includes(filter)){
+                if (recipe.ingredients.includes(filter)){
+                    console.log(filter)
                     foundInRecipe = true;
                 }
                 filterFoundArray.push(foundInRecipe);
@@ -72,7 +78,7 @@ function newAlgo(filtersArray){
             filtersArray[1].forEach(filter => {
                 let foundInRecipe = false;
 
-                if (recipeNode.getAttribute("data-ingredients").includes(filter)){
+                if (recipe.ingredients.includes(filter)){
                     foundInRecipe = true;
                 }
 
@@ -83,7 +89,7 @@ function newAlgo(filtersArray){
             filtersArray[2].forEach(filter => {
                 let foundInRecipe = false;
 
-                if (recipeNode.getAttribute("data-appliance").includes(filter)){
+                if (recipe.appliance.includes(filter)){
                     foundInRecipe = true;
                 }
                 filterFoundArray.push(foundInRecipe);
@@ -93,8 +99,8 @@ function newAlgo(filtersArray){
             filtersArray[3].forEach(filter => {
                 let foundInRecipe = false;
 
-                if (recipeNode.getAttribute("data-ustensils").includes(filter)){
-                    console.log(recipeNode.getAttribute("data-ustensils"))
+                if (recipe.ustensils.includes(filter)){
+
                     foundInRecipe = true;
                 }
                 filterFoundArray.push(foundInRecipe);
@@ -108,10 +114,10 @@ function newAlgo(filtersArray){
         }
         else {
 
-            const test = recipeID.filter(id => id.toString() === recipeNode.getAttribute("data-recipeId").toString());
+            const test = recipeID.filter(id => id.toString() === recipe.id);
 
             if (test.length <= 0) {
-                recipeID.push(recipeNode.getAttribute("data-recipeId"));
+                recipeID.push(recipe.id);
             }
 
         }

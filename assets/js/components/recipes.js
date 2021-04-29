@@ -1,7 +1,7 @@
 import {sanitizeString, lightText} from "./utils";
 import data from "/assets/js/data/data";
 
-
+export const parsedRecipes = [];
 
 /**
  * Parse recipe with any recipe array and get filters
@@ -22,6 +22,11 @@ export function displayRecipes(recipesArray) {
         addIngredients(recipe.ingredients, ingredientsArray);
         addAppliances(recipe.appliance, appliancesArray);
         addUstensils(recipe.ustensils, ustensilsArray);
+
+        if (parsedRecipes.length < 50) {
+            const dataRecipe = parseData(recipe);
+        }
+
     });
 
     return [ingredientsArray, appliancesArray, ustensilsArray];
@@ -49,16 +54,8 @@ function createRecipe(recipe){
         }
     });
 
-    const dataRecipe = parseData(recipe);
 
-
-    return `<article    class="recipe-container" 
-                        data-recipeId="${recipe.id}" 
-                        data-mainSearch="${dataRecipe[0]}"
-                        data-ingredients="${dataRecipe[1]}"
-                        data-appliance="${dataRecipe[2]}"
-                        data-ustensils="${dataRecipe[3]}"
-                 >
+    return `<article class="recipe-container">
                 <figure class="recipe">
                     <img src="assets/images/400x400.png" alt="${recipe.name}" class="recipe__picture">
                     <figcaption class="recipe__description">
@@ -142,7 +139,6 @@ function addUstensils(ustensils, ustensilsArray){
 /**
  * Parse data from a recipe for sanitize and remove no needed texts
  * @param { Object } myRecipe
- * @return {Array, Array, Array, Array} - Main search, ingredients, appliance and ustensils (string arrays)
  */
 function parseData(myRecipe){
 
@@ -151,20 +147,34 @@ function parseData(myRecipe){
     let recipeApplianceSearch;
     let recipeUstensilsSearch = [];
 
-    recipeMainSearch = lightText(myRecipe.name +" " + myRecipe.description);
+    recipeMainSearch = lightText(myRecipe.name + myRecipe.description);
     recipeApplianceSearch = lightText(myRecipe.appliance);
 
     myRecipe.ingredients.forEach(ingredient => {
-        recipeIngredientsSearch.push(sanitizeString(ingredient.ingredient));
+        recipeIngredientsSearch += ingredient.ingredient;
     });
     myRecipe.ustensils.forEach(ustensil => {
-        recipeUstensilsSearch.push(sanitizeString(ustensil));
+        recipeUstensilsSearch += ustensil;
     });
 
-    return [recipeMainSearch, recipeIngredientsSearch, recipeApplianceSearch, recipeUstensilsSearch]
+    recipeIngredientsSearch = sanitizeString(recipeIngredientsSearch)
+    recipeUstensilsSearch = sanitizeString(recipeUstensilsSearch)
+
+    const newRecipe = {
+        id : myRecipe.id.toString(),
+        mainSearch : recipeMainSearch,
+        ingredients : recipeIngredientsSearch.replace(/\s/g, ''),
+        appliance : recipeApplianceSearch,
+        ustensils : recipeUstensilsSearch.replace(/\s/g, '')
+    }
+    parsedRecipes.push(newRecipe);
 
 }
-
+/**
+ * Search in recipes data every recipe who match with ID and return array of recipes
+ * @param { number } recipeID
+ * @return { Object } recipesArray
+ */
 export function getRecipes(recipeID){
     const recipesArray = [];
 

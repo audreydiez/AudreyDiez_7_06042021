@@ -102,7 +102,7 @@ export function lightText(string){
     });
 
     string = [...new Set(string)];
-
+    string = string.join('');
     return string;
 }
 

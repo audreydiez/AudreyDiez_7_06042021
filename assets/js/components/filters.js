@@ -39,7 +39,7 @@ export function launchSearchEngine(ingredientsArray, appliancesArray, ustensilsA
  * @param {Array.<Object>} recipesArray
  */
 export function reloadSearchEngine (ingredientsArray, appliancesArray, ustensilsArray, recipesArray){
-    console.log(recipesArray)
+    //console.log(recipesArray)
     removeNodes("filter");
     fillSelect("ingredients-filters", "ingredients", ingredientsArray);
     fillSelect("appliances-filters", "appliances", appliancesArray);
@@ -198,7 +198,7 @@ export function createTag(elt, eltType, eltID){
     filtered.push({
         type : dataType,
         id : eltID,
-        value: sanitizeString(elt)
+        value: sanitizeString(elt).replace(/\s/g, '')
     });
 
     resetCustomSelectInput(dataType);
