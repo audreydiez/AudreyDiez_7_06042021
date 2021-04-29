@@ -31,7 +31,9 @@
         padding: 0 0 2rem 0;
         transition: all;
         animation: fadeIn 0.5s ease-out;
-
+        &.hide{
+            visibility: hidden;
+        }
         @include breakpoint(md){
             margin: 0 1rem 3rem 1rem;
         }
@@ -49,6 +51,7 @@
             font-size: 0.8rem;
             background-color: $background-grey-light;
             border-radius: 0 0 5px 5px;
+
             &__picture{
                 width: 100%;
                 height: auto;

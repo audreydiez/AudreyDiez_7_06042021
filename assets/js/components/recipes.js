@@ -1,5 +1,5 @@
 import {sanitizeString, lightText} from "./utils";
-
+import data from "/assets/js/data/data";
 
 
 
@@ -163,4 +163,15 @@ function parseData(myRecipe){
 
     return [recipeMainSearch, recipeIngredientsSearch, recipeApplianceSearch, recipeUstensilsSearch]
 
+}
+
+export function getRecipes(recipeID){
+    const recipesArray = [];
+
+    data.recipes.forEach(recipe => {
+        if (recipeID.includes(recipe.id.toString())){
+            recipesArray.push(recipe)
+        }
+    })
+    return recipesArray;
 }
