@@ -144,7 +144,8 @@ export function parseData(myRecipe){
     let recipeUstensilsSearch = [];
 
     recipeMainSearch = lightText(myRecipe.name + myRecipe.description);
-    recipeApplianceSearch = lightText(myRecipe.appliance);
+
+    recipeApplianceSearch = sanitizeString(myRecipe.appliance);
 
     myRecipe.ingredients.forEach(ingredient => {
         recipeIngredientsSearch += ingredient.ingredient;
@@ -160,7 +161,7 @@ export function parseData(myRecipe){
         id : myRecipe.id.toString(),
         mainSearch : recipeMainSearch,
         ingredients : recipeIngredientsSearch.replace(/\s/g, ''),
-        appliance : recipeApplianceSearch,
+        appliance : recipeApplianceSearch.replace(/\s/g, ''),
         ustensils : recipeUstensilsSearch.replace(/\s/g, '')
     }
     parsedRecipes.push(newRecipe);

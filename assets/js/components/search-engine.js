@@ -25,12 +25,8 @@ export function searching(filtered){
     recipesFiltered = [];
     let recipeID = [];
 
-    console.log(parsedRecipes)
-
     // Set filters Array
     const searchFilters = splitArrays(filtered);
-    console.log(searchFilters)
-
 
     // Launch algo
     // If main Input id filled
@@ -96,10 +92,8 @@ function searchAlgoMainInput(filtersArray){
 
                 if (recipe.mainSearch.includes(filter)){
                     foundInRecipe = true;
-                    console.log(filter)
                 }
                 if (recipe.ingredients.includes(filter)){
-                    console.log(filter)
                     foundInRecipe = true;
                 }
                 filterFoundArray.push(foundInRecipe);
@@ -147,9 +141,11 @@ function searchAlgoCustomSelect(recipeIDFound, searchFilters, tagType){
 
                 if (recipe[tagType].includes(filter)){
                     foundInRecipe = true;
+
                 }
                 else{
                     foundInRecipe = false;
+                    //console.log(filter)
                 }
                 filterFoundArray.push(foundInRecipe);
             })

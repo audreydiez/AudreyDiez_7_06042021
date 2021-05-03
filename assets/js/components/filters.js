@@ -201,6 +201,7 @@ export function createTag(elt, eltType, eltID){
         value: sanitizeString(elt).replace(/\s/g, '')
     });
 
+
     resetCustomSelectInput(dataType);
 
     searching(filtered);
