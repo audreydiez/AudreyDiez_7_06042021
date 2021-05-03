@@ -11,8 +11,9 @@ let recipesFiltered = [];
  * @param { array } filtered
  */
 export function searching(filtered){
-    //document.getElementById("no-results").style.display = "none";
+
     document.getElementById("no-results").classList.add("hide");
+
 
     // If filtered is empty, reset search
     if (filtered.length === 1 && filtered[0].value === null){
@@ -22,43 +23,73 @@ export function searching(filtered){
     }
 
     recipesFiltered = [];
+    let recipeID = [];
 
     console.log(parsedRecipes)
 
     // Set filters Array
     const searchFilters = splitArrays(filtered);
+    console.log(searchFilters)
+
 
     // Launch algo
-    const recipeID = newAlgo(searchFilters);
+    // If main Input id filled
+    if (searchFilters[0][0] != null){
+        // get ID who matched
+        recipeID = searchAlgoMainInput(searchFilters);
+    }
+    // If main input is null, get all ID ( if not, we can't search in tag with ID empty)
+    else {
+        parsedRecipes.forEach(recipe => {
+            recipeID.push(recipe.id);
+        })
+    }
 
-    // Build recipe Array and display
+    // If filter ingredient exists
+    if (searchFilters[1][0] != null){
+        // get ID who matched from precedent ID array received
+        recipeID = searchAlgoCustomSelect(recipeID, searchFilters[1], "ingredients");
+    }
+
+    // if filter appliance is filled
+    if (searchFilters[2][0] != null){
+        // get ID who matched from precedent ID array received
+        recipeID = searchAlgoCustomSelect(recipeID, searchFilters[2], "appliance");
+    }
+
+    // if filter ustensils is filled
+    if (searchFilters[3][0] != null){
+        // get ID who matched from precedent ID array received
+        recipeID = searchAlgoCustomSelect(recipeID, searchFilters[3], "ustensils");
+    }
+
+    // Build recipe Array (from recipe ID received) and display recipes
     const recipesMatched = getRecipes(recipeID);
-    console.log(recipesMatched)
 
     removeNodes("recipe-container");
     let filters = displayRecipes(recipesMatched);
     reloadSearchEngine(filters[0], filters[1], filters[2], recipesMatched);
 
+    if (recipesMatched.length === 0) {
+        document.getElementById("no-results").classList.remove("hide");
+    }
 
 }
 
 /**
- * Searching algorithm for main search input and custom select in all recipes and return array with matched ID
- * @param { array } filters
- * @return { array } recipes ID matched with filters
+ * For main input - search if all filters are presents
+ * @param { array } searchFilters - filters entered by user
+ * @returns { array } recipeID - ID who matched
  */
-function newAlgo(filtersArray){
-    const recipeNodes = document.getElementsByTagName("article");
-    console.log(filtersArray)
+function searchAlgoMainInput(filtersArray){
 
     const recipeID = [];
-
-    //console.log(recipeNode)
 
     Array.from(parsedRecipes).forEach(recipe => {
 
         let filterFoundArray = [];
 
+        // Main search filters
         if (filtersArray[0][0] != null){
             filtersArray[0].forEach(filter => {
                 let foundInRecipe = false;
@@ -74,57 +105,71 @@ function newAlgo(filtersArray){
                 filterFoundArray.push(foundInRecipe);
             })
         }
-        if (filtersArray[1][0] != null){
-            filtersArray[1].forEach(filter => {
-                let foundInRecipe = false;
-
-                if (recipe.ingredients.includes(filter)){
-                    foundInRecipe = true;
-                }
-
-                filterFoundArray.push(foundInRecipe);
-            })
-        }
-        if (filtersArray[2][0] != null){
-            filtersArray[2].forEach(filter => {
-                let foundInRecipe = false;
-
-                if (recipe.appliance.includes(filter)){
-                    foundInRecipe = true;
-                }
-                filterFoundArray.push(foundInRecipe);
-            })
-        }
-        if (filtersArray[3][0] != null){
-            filtersArray[3].forEach(filter => {
-                let foundInRecipe = false;
-
-                if (recipe.ustensils.includes(filter)){
-
-                    foundInRecipe = true;
-                }
-                filterFoundArray.push(foundInRecipe);
-            })
-        }
-
 
         if (filterFoundArray.includes(false)){
             return;
-
         }
         else {
-
             const test = recipeID.filter(id => id.toString() === recipe.id);
 
             if (test.length <= 0) {
                 recipeID.push(recipe.id);
             }
-
         }
 
     })
+
     return recipeID;
 }
+
+/**
+ * search in custom selects - from ID founded previously, search if all filters are presents
+ * @param { array } recipeIDFound - recipe ID founded previously
+ * @param { array } searchFilters - filters entered by user
+ * @param { String } tagType - Type of custom select (for searching with the right key in recipes)
+ * @returns { array } recipeID - ID who matched
+ */
+function searchAlgoCustomSelect(recipeIDFound, searchFilters, tagType){
+
+    let recipeID = [];
+
+    // For each existing recipes
+    Array.from(parsedRecipes).forEach(recipe => {
+
+        let filterFoundArray = [];
+
+        // if recipeIDFound is included in parsedRecipes, search the filter( if not, don't search into it => return)
+        if (recipeIDFound.includes(recipe.id.toString())){
+
+            // For each filter, if founded, push true, else false
+            searchFilters.forEach(filter => {
+                let foundInRecipe = false;
+
+                if (recipe[tagType].includes(filter)){
+                    foundInRecipe = true;
+                }
+                else{
+                    foundInRecipe = false;
+                }
+                filterFoundArray.push(foundInRecipe);
+            })
+        }
+        else {
+            return;
+        }
+
+        // If all filters founded, push id recipe
+        if (filterFoundArray.includes(false)){
+            return;
+        }
+        else {
+            recipeID.push(recipe.id.toString());
+        }
+    })
+
+    return recipeID;
+}
+
 
 /**
  * Organize filter from search entries to practical array -

@@ -23,10 +23,6 @@ export function displayRecipes(recipesArray) {
         addAppliances(recipe.appliance, appliancesArray);
         addUstensils(recipe.ustensils, ustensilsArray);
 
-        if (parsedRecipes.length < 50) {
-            const dataRecipe = parseData(recipe);
-        }
-
     });
 
     return [ingredientsArray, appliancesArray, ustensilsArray];
@@ -140,7 +136,7 @@ function addUstensils(ustensils, ustensilsArray){
  * Parse data from a recipe for sanitize and remove no needed texts
  * @param { Object } myRecipe
  */
-function parseData(myRecipe){
+export function parseData(myRecipe){
 
     let recipeMainSearch;
     let recipeIngredientsSearch = [];

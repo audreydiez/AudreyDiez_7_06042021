@@ -1,6 +1,4 @@
 const customsSelect = document.getElementsByClassName("custom-select");
-
-
 const selectIngredientsInput = document.getElementById('ingredients-input');
 const selectAppliancesInput = document.getElementById('appliance-input');
 const selectUstensilsInput = document.getElementById('ustensils-input');
@@ -63,7 +61,6 @@ function toggleSelect(select){
     }
     else{
         // back to normal state
-
         filtersContainer.style.display = "none"
         filtersContainer.setAttribute("data-state", "collapsed");
         select.style.minWidth ="";
@@ -116,9 +113,6 @@ function moveSelectRight(selectTypeExpanded) {
             }
         )
 
-
-
-
         let selectValue = select.getAttribute("value")+"-filters";
 
         if (getWidth() <= 992){
@@ -150,7 +144,6 @@ function moveSelectRight(selectTypeExpanded) {
                 customsSelect[2].style.left = "820px";
             }
         }
-
 
     })
 }
@@ -188,7 +181,6 @@ function moveSelectLeft(selectTypeExpanded) {
 
     })
 }
-
 
 /**
  * Get screen width for responsive adaptation
