@@ -13,13 +13,7 @@ export let filtered = [
         }
     ];
 
-/**
- * Getter for filter pushed into Filtered array (filters entered by user)
- * @returns {[{id: string, type: string, value: null}]} filtered - Array of filters
- */
-export function getFiltered(){
-    return filtered;
-}
+
 
 /**
  * Set up the search engine for first launch, reset the filters of selects, fill selects and set comportement for input search

@@ -1,17 +1,16 @@
-import {getFiltered, reloadSearchEngine} from "./filters";
+import {reloadSearchEngine} from "./filters";
 import {displayRecipes} from "./recipes";
 import {sanitizeString, addFilterID, removeNodes} from "./utils";
 import data from "../data/data";
 
 let recipesFiltered = [];
 
-
 /**
  * Searching algorithm for main search input and custom select
  * @param { array } filtered
  */
 export function searching(filtered){
-    //document.getElementById("no-results").style.display = "none";
+
     document.getElementById("no-results").classList.add("hide");
 
     // If filtered is empty, reset search
@@ -23,18 +22,14 @@ export function searching(filtered){
 
     recipesFiltered = [];
 
-    console.log(filtered)
-
-    // NEW FONCTION;
+    // parsing filters
     const searchFilters = splitArrays(filtered);
-    console.log(searchFilters)
 
     // ALGO 1
     data.recipes.forEach( recipe => {
 
         if ( searchAlgo(recipe, searchFilters)
         ){
-
             recipesFiltered.push(recipe);
         }
 
@@ -49,8 +44,8 @@ export function searching(filtered){
     let filters = displayRecipes(recipesFiltered);
     reloadSearchEngine(filters[0], filters[1], filters[2], recipesFiltered);
 
+    // If no recipes found
     if (recipesFiltered.length === 0) {
-        //document.getElementById("no-results").style.display = "flex";
         document.getElementById("no-results").classList.remove("hide");
     }
 

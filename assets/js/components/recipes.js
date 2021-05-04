@@ -126,13 +126,3 @@ function addUstensils(ustensils, ustensilsArray){
     return ustensilsArray;
 }
 
-/**
- * Check if the value is the first occuring, if not, it's a duplicate
- * @param { string } value
- * @param { number } index
- * @param { string } self
- * @return { string } unique
- */
-export function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
-}

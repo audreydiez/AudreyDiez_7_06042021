@@ -80,3 +80,4 @@ export function removeNodes(className) {
         elt.remove();
     })
 }
+
