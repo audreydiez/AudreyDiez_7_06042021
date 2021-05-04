@@ -17,6 +17,7 @@ export function searching(filtered){
 
     // If filtered is empty, reset search
     if (filtered.length === 1 && filtered[0].value === null){
+        removeNodes("recipe-container");
         let filters = displayRecipes(data.recipes);
         reloadSearchEngine(filters[0], filters[1], filters[2], data.recipes);
         return
